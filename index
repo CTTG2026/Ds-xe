@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Xe tập lái · CTTG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Barlow+Condensed:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF2F6; --surface:#FFFFFF; --ink:#1B2430; --muted:#5B6675; --line:#D3DAE2;
+  --blue:#1F4E8C; --sign:#F2C230; --red:#C8252C; --orange:#C2410C; --amber:#B7791F; --olive:#7A6212; --green:#2E7D4F;
+  --soon-bg:#FFF6D6; --exp-bg:#FDE8E9; --miss-bg:#FFF8E1;
+  --radius:10px;
+  font-family:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  color:var(--ink); background:var(--paper);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#121821;--surface:#1B2330;--ink:#E7ECF2;--muted:#9AA6B5;--line:#2E3948;
+        --blue:#2A5E9F;--soon-bg:#3A3212;--exp-bg:#3D1B1E;--miss-bg:#332B10;--green:#5CB883;
+        --orange:#FB923C;--amber:#F2C230;--olive:#D9C06A;--red:#F26B70}
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100vh;background:var(--paper);font-size:15px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+[hidden]{display:none!important}
+body:not(.is-admin) .admin-only{display:none!important}
+body.is-admin .viewer-only{display:none!important}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:5;background:var(--blue);color:#fff;padding:0 max(16px,env(safe-area-inset-left))}
+.topbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:8px 24px;min-height:56px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;font-weight:700;font-size:1.05rem}
+.brand small{font-weight:400;opacity:.8;font-size:.85rem}
+.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;max-width:100%}
+.tab{background:none;border:0;color:inherit;padding:16px 11px 13px;cursor:pointer;font-weight:500;white-space:nowrap;
+  border-bottom:3px solid transparent;opacity:.85}
+.tab[aria-selected="true"]{border-bottom-color:var(--sign);opacity:1;font-weight:600}
+.count{display:inline-block;min-width:1.5em;padding:0 .45em;margin-left:5px;border-radius:99px;
+  background:var(--sign);color:#1B2430;font-size:.78rem;font-weight:700;text-align:center}
+.count:empty{display:none}
+.admin-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:99px;
+  padding:5px 14px;font-size:.86rem;font-weight:500;cursor:pointer;white-space:nowrap}
+.admin-btn:hover{background:rgba(255,255,255,.22)}
+body.is-admin .admin-btn{background:var(--sign);color:#1B2430;border-color:var(--sign)}
+
+main{max-width:1100px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.5rem;line-height:1.25;margin:0;font-weight:700}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.muted{color:var(--muted)}
+.lead{margin:-8px 0 18px;color:var(--muted);max-width:70ch}
+
+/* ---------- license plate ---------- */
+.plate{display:inline-block;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;
+  font-size:1.2rem;letter-spacing:.04em;line-height:1.3;white-space:nowrap;
+  background:#FFFFFF;color:#101820;border:1px solid #101820;border-radius:5px;padding:1px 10px;
+  box-shadow:inset 0 0 0 2px #FFFFFF, inset 0 0 0 3px #101820}
+.plate.big{font-size:2rem;padding:2px 16px;border-radius:7px}
+
+/* ---------- mức cảnh báo ---------- */
+.st{font-weight:600;white-space:nowrap}
+.st.exp,.st.t7{color:var(--red)} .st.t15{color:var(--orange)} .st.t30{color:var(--amber)} .st.t45{color:var(--olive)} .st.ok{color:var(--green)}
+
+/* ---------- tầng cảnh báo ---------- */
+.tiers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:20px}
+@media (max-width:760px){.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tier{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--line);border-radius:var(--radius);
+  padding:10px 14px;text-align:left;cursor:pointer}
+.tier b{display:block;font-size:1.7rem;line-height:1.1}
+.tier span{font-size:.88rem;color:var(--muted)}
+.tier.exp{border-top-color:var(--red)} .tier.t7{border-top-color:var(--red)} .tier.t15{border-top-color:var(--orange)}
+.tier.t30{border-top-color:var(--amber)} .tier.t45{border-top-color:var(--sign)}
+.tier[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-2px}
+
+.card{display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sign);
+  border-radius:var(--radius);padding:12px 16px;margin-bottom:10px;cursor:pointer}
+.card.exp,.card.t7{border-left-color:var(--red)} .card.t15{border-left-color:var(--orange)} .card.t30{border-left-color:var(--amber)}
+.card.miss{border-left-color:var(--muted)}
+.card:hover{border-color:var(--muted)}
+.card .who{font-size:.9rem;color:var(--muted)}
+.card .tags{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.doc{display:inline-flex;gap:8px;align-items:baseline;border-radius:6px;padding:3px 10px;font-size:.88rem;background:var(--soon-bg)}
+.doc.exp,.doc.t7{background:var(--exp-bg)}
+.doc b{font-weight:600}
+.tag{border:1px dashed var(--muted);border-radius:6px;padding:1px 8px;font-size:.84rem;color:var(--muted)}
+.miss-n{display:inline-block;font-size:.78rem;font-weight:600;color:var(--amber);border:1px solid currentColor;border-radius:99px;padding:0 8px;margin-left:6px;white-space:nowrap}
+
+/* ---------- tra cứu ---------- */
+.search{flex:1 1 320px;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.row{display:grid;grid-template-columns:150px minmax(0,1.4fr) 60px 1fr 1fr minmax(0,1fr) auto;gap:12px;align-items:center;
+  padding:10px 16px;border-top:1px solid var(--line);cursor:pointer}
+.row:first-child{border-top:0}
+.row:hover{background:var(--paper)}
+.row.head{cursor:default;font-size:.8rem;color:var(--muted);font-weight:600;background:var(--paper)}
+.row .cell-label{display:none}
+@media (max-width:760px){
+  .row{grid-template-columns:auto 1fr auto;gap:4px 12px}
+  .row.head{display:none}
+  .row .cell-label{display:inline;color:var(--muted);font-size:.82rem;margin-right:6px}
+  .row > :nth-child(n+3):not(.btn){grid-column:1/-1}
+  .row > .btn{grid-row:1;grid-column:3}
+}
+.empty{padding:32px 16px;text-align:center;color:var(--muted)}
+
+/* ---------- nút ---------- */
+.btn{border:0;border-radius:8px;padding:11px 20px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+.btn.small{padding:6px 12px;font-size:.88rem;background:var(--paper);border:1px solid var(--line)}
+.btn.small:hover{border-color:var(--blue);color:var(--blue)}
+.btn:disabled{opacity:.6;cursor:progress}
+
+/* ---------- form ---------- */
+form{display:grid;gap:20px}
+fieldset{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:16px 18px 18px;margin:0}
+legend{font-weight:700;padding:0 6px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field.wide{grid-column:1/-1}
+.field label{font-size:.88rem;font-weight:500;display:flex;gap:8px;align-items:baseline}
+.field label .req{color:var(--red)}
+.field label .need{display:none;font-size:.76rem;font-weight:600;color:var(--amber)}
+.field input,.field select,.field textarea{padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--paper);min-height:42px}
+.field.missing input,.field.missing select,.field.missing textarea{border:2px solid var(--sign);background:var(--miss-bg)}
+.field.missing label .need{display:inline}
+.field .hint{font-size:.8rem;color:var(--muted)}
+.miss-note{background:var(--miss-bg);border:1px solid var(--sign);border-radius:var(--radius);padding:10px 14px;margin:-4px 0 0}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;position:sticky;bottom:0;padding:12px 0;background:var(--paper)}
+
+/* ---------- dialog ---------- */
+dialog{border:0;border-radius:14px;padding:0;width:min(720px,94vw);max-height:90vh;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(16,24,32,.55)}
+.dlg-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:20px 22px 12px;border-bottom:1px solid var(--line)}
+.dlg-body{padding:8px 22px 20px;overflow:auto;max-height:calc(90vh - 150px)}
+.dlg-body h3{font-size:.95rem;margin:18px 0 6px}
+.kv{display:grid;grid-template-columns:190px 1fr;gap:4px 12px;font-size:.93rem}
+@media (max-width:520px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
+.kv dt{color:var(--muted)} .kv dd{margin:0;word-break:break-word}
+.kv dd.gap{color:var(--amber);font-weight:500}
+.dlg-foot{display:flex;justify-content:flex-end;gap:10px;padding:12px 22px 18px;border-top:1px solid var(--line)}
+
+/* ---------- login, toast ---------- */
+#loginDlg{width:min(400px,92vw)}
+.login{padding:24px}
+.login p{margin:.4rem 0 1rem}
+.err{color:var(--red);font-size:.9rem;min-height:1.4em;margin:.5rem 0 0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
+  background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;transition:.2s;pointer-events:none;z-index:20;max-width:90vw}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.bad{background:var(--red);color:#fff}
+.loading{padding:40px 0;text-align:center;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">Xe tập lái <small>Trung tâm Chiến Thắng</small></div>
+    <nav class="tabs" role="tablist" id="tabs">
+      <button class="tab" role="tab" data-view="alerts" aria-selected="true">Cảnh báo<span class="count" id="alertCount"></span></button>
+      <button class="tab" role="tab" data-view="missing" aria-selected="false">Thiếu thông tin<span class="count" id="missCount"></span></button>
+      <button class="tab" role="tab" data-view="search" aria-selected="false">Tra cứu</button>
+      <button class="tab admin-only" role="tab" data-view="form" aria-selected="false">Thêm xe</button>
+    </nav>
+    <button class="admin-btn" id="adminBtn" type="button">Quản trị</button>
+  </div>
+</header>
+
+<main>
+
+  <div id="loading" class="loading" hidden>Đang tải danh sách xe…</div>
+
+  <section id="view-alerts" hidden>
+    <div class="bar"><h1>Giấy tờ sắp hết hạn</h1></div>
+    <p class="lead">Theo dõi hạn kiểm định, giấy phép xe tập lái và hợp đồng thuê xe, báo ở bốn mốc 45, 30, 15 và 7 ngày. Bấm vào một mốc để chỉ xem mốc đó.</p>
+    <div class="tiers" id="tiers"></div>
+    <div id="alertList"></div>
+  </section>
+
+  <section id="view-missing" hidden>
+    <div class="bar"><h1>Xe còn thiếu thông tin</h1></div>
+    <p class="lead admin-only">Bấm “Bổ sung” để mở form, các ô còn trống được tô vàng. Sau khi lưu có thể chuyển thẳng sang xe kế tiếp.</p>
+    <p class="lead viewer-only">Danh sách xe còn trống thông tin. Muốn bổ sung, bấm “Quản trị” ở góc trên để đăng nhập.</p>
+    <div class="chips" id="missChips"></div>
+    <div id="missList"></div>
+  </section>
+
+  <section id="view-search" hidden>
+    <div class="bar">
+      <input id="q" class="search" type="search" placeholder="Biển số, số khung, số máy, IMEI, chủ xe…" autocomplete="off">
+    </div>
+    <div class="chips" id="hangChips"></div>
+    <p class="muted" id="resultCount"></p>
+    <div class="list" id="vehicleList"></div>
+  </section>
+
+  <section id="view-form" hidden>
+    <div class="bar"><h1 id="formTitle">Thêm xe mới</h1></div>
+    <form id="vehicleForm" novalidate>
+      <p class="miss-note" id="missNote" hidden></p>
+      <div id="formGroups" style="display:grid;gap:20px"></div>
+      <div class="actions">
+        <button type="button" class="btn ghost" id="cancelEdit" hidden>Hủy</button>
+        <button type="submit" class="btn ghost" id="saveNextBtn" data-next="1" hidden>Lưu và sang xe tiếp theo</button>
+        <button type="submit" class="btn primary" id="saveBtn">Thêm xe</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<dialog id="detail"></dialog>
+<dialog id="loginDlg">
+  <form class="login" id="loginForm">
+    <h1>Đăng nhập quản trị</h1>
+    <p class="muted">Cần quyền quản trị để thêm xe mới và chỉnh sửa thông tin. Xem và tra cứu thì không cần đăng nhập.</p>
+    <div class="field"><label for="pw">Mật khẩu quản trị</label><input id="pw" type="password" autocomplete="current-password"></div>
+    <p class="err" id="loginErr"></p>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button type="button" class="btn ghost" id="loginCancel">Hủy</button>
+      <button class="btn primary" id="loginSubmit">Đăng nhập</button>
+    </div>
+  </form>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============ CẤU HÌNH: dán URL Web App của Apps Script vào đây ============ */
+const API_URL = 'https://script.google.com/macros/s/AKfycbyNrrSOQZFhAcHgB4wCdfgp-q2IVfp_E8BdwIpuE1RMq-rwdpf7gTvRUXY3Fbqb2Sig/exec';
+const ADMIN_STORE = 'cttg_xe_admin';   // mật khẩu quản trị lưu trên máy sau khi đăng nhập
+
+/* Bốn mốc cảnh báo (ngày) */
+const TIERS = [
+  { cls: 't7',  max: 7,  label: 'Còn 7 ngày trở xuống' },
+  { cls: 't15', max: 15, label: 'Còn 8 đến 15 ngày' },
+  { cls: 't30', max: 30, label: 'Còn 16 đến 30 ngày' },
+  { cls: 't45', max: 45, label: 'Còn 31 đến 45 ngày' },
+];
+
+/* Giấy tờ được theo dõi hạn */
+const EXPIRY = [
+  { key: 'hetHanKiemDinh', label: 'Kiểm định' },
+  { key: 'hetHanGPXTL', label: 'GPXTL' },
+  { key: 'hetHanHD', label: 'HĐ thuê xe' },
+];
+
+/* Quy tắc "đủ thông tin" – sửa danh sách này nếu muốn kiểm tra thêm/bớt ô */
+const REQUIRED = {
+  tatCa: ['loaiXe', 'hangXe', 'nhanHieu', 'namSX', 'mauSon', 'soCavet', 'soMay', 'soKhung', 'soHuu'],
+  // chỉ áp dụng cho ô tô (hạng B, B.01, C1…); mô tô hạng A/A1 bỏ qua
+  oTo: ['soKiemDinh', 'ngayKiemDinh', 'hetHanKiemDinh', 'soGPXTL', 'ngayCapGPXTL', 'hetHanGPXTL', 'seriDAT', 'imeiDAT'],
+  // chỉ áp dụng khi chủ sở hữu không phải "Trung tâm"
+  xeThue: ['ngayKyHD', 'hetHanHD'],
+};
+
+const GROUPS = [
+  { title: 'Thông tin xe', fields: [
+    ['hang', 'Hạng', { req: 1, list: 1, ph: 'B, C1…' }],
+    ['bienSo', 'Biển số', { req: 1, ph: '63A-203.17' }],
+    ['loaiXe', 'Loại xe', { list: 1 }],
+    ['hangXe', 'Hãng xe', { list: 1 }],
+    ['nhanHieu', 'Nhãn hiệu xe', { list: 1 }],
+    ['namSX', 'Năm sản xuất', { mode: 'numeric' }],
+    ['mauSon', 'Màu sơn', { list: 1 }],
+    ['chucNang', 'Chức năng', { list: 1, ph: 'DAT, SH' }],
+    ['soCavet', 'Số cà vẹt', { mode: 'numeric' }],
+    ['soMay', 'Số máy'],
+    ['soKhung', 'Số khung'],
+  ]},
+  { title: 'Kiểm định', fields: [
+    ['soKiemDinh', 'Số chứng nhận kiểm định'],
+    ['ngayKiemDinh', 'Ngày kiểm định', { type: 'date' }],
+    ['hetHanKiemDinh', 'Ngày hết hạn kiểm định', { type: 'date' }],
+  ]},
+  { title: 'Giấy phép xe tập lái', fields: [
+    ['soGPXTL', 'Số GPXTL', { ph: '2001/GPXTL-SXD' }],
+    ['ngayCapGPXTL', 'Ngày cấp GPXTL', { type: 'date' }],
+    ['hetHanGPXTL', 'Ngày hết hạn GPXTL', { type: 'date', hint: 'Để trống thì tự lấy theo hạn kiểm định.' }],
+  ]},
+  { title: 'Thiết bị DAT', fields: [
+    ['seriDAT', 'Seri DAT'],
+    ['imeiDAT', 'IMEI DAT', { mode: 'numeric' }],
+  ]},
+  { title: 'Sở hữu và hợp đồng thuê', fields: [
+    ['soHuu', 'Chủ sở hữu', { list: 1 }],
+    ['ngayKyHD', 'Ngày kí hợp đồng thuê', { type: 'date' }],
+    ['hetHanHD', 'Ngày hết hạn hợp đồng thuê', { type: 'date' }],
+  ]},
+  { title: 'Khác', fields: [
+    ['daNhapSo', 'Nhập lên Sở', { select: [['Chưa nhập', 'Chưa nhập'], ['x', 'Đã nhập'], ['', 'Để trống']] }],
+    ['note', 'Ghi chú', { wide: 1, textarea: 1 }],
+  ]},
+];
+const ALL_FIELDS = GROUPS.flatMap(g => g.fields);
+const LABEL = Object.fromEntries(ALL_FIELDS.map(([k, l]) => [k, l]));
+const DATE_KEYS = ALL_FIELDS.filter(f => f[2] && f[2].type === 'date').map(f => f[0]);
+
+const state = { vehicles: [], hang: '', missHang: '', tier: '', editing: null, fromMissing: false, view: 'alerts' };
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]/g, '');
+const carName = v => [v.hangXe, v.nhanHieu].filter(Boolean).join(' ') || 'Chưa rõ loại xe';
+
+/* ---------- ngày tháng & mức cảnh báo ---------- */
+function parseDmy(s) {
+  const m = String(s || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  return m ? new Date(+m[3], +m[2] - 1, +m[1]) : null;
+}
+const dmyToIso = s => { const m = String(s || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); return m ? `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}` : ''; };
+const isoToDmy = s => { const m = String(s || '').match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? `${m[3]}/${m[2]}/${m[1]}` : ''; };
+function daysLeft(s) {
+  const d = parseDmy(s); if (!d) return null;
+  const t = new Date(); t.setHours(0, 0, 0, 0);
+  return Math.round((d - t) / 86400000);
+}
+function status(s) {
+  const left = daysLeft(s);
+  if (left === null) return { cls: 'none', left, text: '' };
+  if (left < 0) return { cls: 'exp', left, text: `Quá hạn ${-left} ngày` };
+  if (left === 0) return { cls: 'exp', left, text: 'Hết hạn hôm nay' };
+  const t = TIERS.find(t => left <= t.max);
+  return { cls: t ? t.cls : 'ok', left, text: `Còn ${left} ngày` };
+}
+const RANK = { exp: 0, t7: 1, t15: 2, t30: 3, t45: 4 };
+
+/* ---------- thiếu thông tin ---------- */
+const isMoto = v => /^A/i.test(v.hang || '') || /moto|xe so|tay ga/.test(fold(v.loaiXe));
+const isThue = v => v.soHuu && fold(v.soHuu) !== 'trungtam';
+function missingFields(v) {
+  const keys = [...REQUIRED.tatCa];
+  if (!isMoto(v)) keys.push(...REQUIRED.oTo);
+  if (isThue(v)) keys.push(...REQUIRED.xeThue);
+  return keys.filter(k => !String(v[k] ?? '').trim());
+}
+
+/* ---------- API ---------- */
+/* Đọc: không cần mật khẩu. Ghi: gửi kèm mật khẩu quản trị */
+async function api(payload, keyOverride) {
+  const res = payload
+    ? await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ ...payload, key: keyOverride ?? adminKey() }) })
+    : await fetch(`${API_URL}?action=list`);
+  const data = await res.json();
+  if (!data.ok) {
+    if (data.auth && keyOverride === undefined) { setAdmin(null); openLogin(data.error + ' Đăng nhập lại để tiếp tục.'); }
+    throw new Error(data.error || 'Máy chủ không phản hồi.');
+  }
+  return data;
+}
+
+/* ---------- quyền quản trị ---------- */
+const adminKey = () => localStorage.getItem(ADMIN_STORE) || '';
+const isAdmin = () => !!adminKey();
+function setAdmin(key) {
+  if (key) localStorage.setItem(ADMIN_STORE, key); else localStorage.removeItem(ADMIN_STORE);
+  document.body.classList.toggle('is-admin', !!key);
+  $('#adminBtn').textContent = key ? 'Thoát quản trị' : 'Quản trị';
+  if (!key && state.view === 'form') { resetForm(); show('search'); }
+}
+function openLogin(msg) {
+  $('#loginErr').textContent = msg || '';
+  $('#pw').value = '';
+  $('#loginDlg').showModal();
+  $('#pw').focus();
+}
+$('#adminBtn').addEventListener('click', () => {
+  if (isAdmin()) { setAdmin(null); toast('Đã thoát quyền quản trị.'); }
+  else openLogin();
+});
+$('#loginCancel').addEventListener('click', () => $('#loginDlg').close());
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const key = $('#pw').value.trim();
+  if (!key) { $('#loginErr').textContent = 'Nhập mật khẩu quản trị.'; return; }
+  const btn = $('#loginSubmit'); btn.disabled = true; btn.textContent = 'Đang kiểm tra…';
+  try {
+    await api({ action: 'login' }, key);
+    setAdmin(key);
+    $('#loginDlg').close();
+    toast('Đã đăng nhập quản trị. Có thể thêm và chỉnh sửa xe.');
+  } catch (err) {
+    $('#loginErr').textContent = err.message;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Đăng nhập';
+  }
+});
+
+async function load(keepView) {
+  $('#loading').hidden = false;
+  try {
+    const data = await api();
+    state.vehicles = data.vehicles;
+    buildDatalists();
+    renderAll();
+    if (!keepView) show(state.view);
+  } catch (e) {
+    toast('Không tải được danh sách: ' + e.message, true);
+  } finally {
+    $('#loading').hidden = true;
+  }
+}
+
+/* ---------- điều hướng ---------- */
+const VIEWS = ['alerts', 'missing', 'search', 'form'];
+function show(view) {
+  state.view = view;
+  VIEWS.forEach(v => { $('#view-' + v).hidden = v !== view; });
+  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.view === view));
+  window.scrollTo(0, 0);
+}
+$('#tabs').addEventListener('click', e => {
+  const t = e.target.closest('.tab'); if (!t) return;
+  if (t.dataset.view === 'form' && !isAdmin()) { openLogin(); return; }
+  if (t.dataset.view === 'form' && state.editing) resetForm();
+  show(t.dataset.view);
+});
+
+
+/* ---------- render ---------- */
+function renderAll() { renderAlerts(); renderMissing(); renderChips(); renderList(); }
+
+function renderAlerts() {
+  const groups = [];
+  state.vehicles.forEach(v => {
+    const docs = EXPIRY.map(f => ({ ...f, date: v[f.key], st: status(v[f.key]) })).filter(d => d.st.cls in RANK);
+    if (docs.length) {
+      docs.sort((a, b) => a.st.left - b.st.left);
+      groups.push({ v, docs, worst: docs[0].st.cls, min: docs[0].st.left });
+    }
+  });
+  groups.sort((a, b) => a.min - b.min);
+
+  const docsAll = groups.flatMap(g => g.docs);
+  const counts = cls => docsAll.filter(d => d.st.cls === cls).length;
+  $('#alertCount').textContent = groups.length || '';
+  $('#tiers').innerHTML = [{ cls: 'exp', label: 'Đã quá hạn' }, ...TIERS]
+    .map(t => `<button class="tier ${t.cls}" data-tier="${t.cls}" aria-pressed="${state.tier === t.cls}"><b>${counts(t.cls)}</b><span>${t.label}</span></button>`).join('');
+
+  const shown = state.tier ? groups.filter(g => g.docs.some(d => d.st.cls === state.tier)) : groups;
+  if (!shown.length) {
+    let next = null;
+    state.vehicles.forEach(v => EXPIRY.forEach(f => {
+      const l = daysLeft(v[f.key]);
+      if (l !== null && l >= 0 && (!next || l < next.l)) next = { v, f, l };
+    }));
+    $('#alertList').innerHTML = `<div class="list"><div class="empty">${state.tier ? 'Không có giấy tờ nào ở mốc này.' : 'Không có giấy tờ nào hết hạn trong 45 ngày tới.'}${
+      next && !state.tier ? `<br>Gần nhất: <span class="plate">${esc(next.v.bienSo)}</span>, ${next.f.label} hết hạn ${esc(next.v[next.f.key])} (còn ${next.l} ngày).` : ''}</div></div>`;
+    return;
+  }
+  $('#alertList').innerHTML = shown.map(g => `
+    <div class="card ${g.worst}" data-row="${g.v.row}" tabindex="0">
+      <span class="plate">${esc(g.v.bienSo)}</span>
+      <span class="who">Hạng ${esc(g.v.hang)}, ${esc(carName(g.v))}${g.v.soHuu ? ', ' + esc(g.v.soHuu) : ''}</span>
+      <button class="btn small admin-only" data-edit="${g.v.row}">Chỉnh sửa</button>
+      <span class="tags">${g.docs.map(d => `<span class="doc ${d.st.cls}"><b>${d.label}</b> ${esc(d.date)} <span class="st ${d.st.cls}">${d.st.text}</span></span>`).join('')}</span>
+    </div>`).join('');
+}
+$('#tiers').addEventListener('click', e => {
+  const b = e.target.closest('.tier'); if (!b) return;
+  state.tier = state.tier === b.dataset.tier ? '' : b.dataset.tier;
+  renderAlerts();
+});
+
+function missingList() {
+  return state.vehicles.map(v => ({ v, miss: missingFields(v) })).filter(x => x.miss.length);
+}
+function renderMissing() {
+  const all = missingList();
+  $('#missCount').textContent = all.length || '';
+  const hangs = [...new Set(all.map(x => x.v.hang).filter(Boolean))];
+  if (state.missHang && !hangs.includes(state.missHang)) state.missHang = '';
+  $('#missChips').innerHTML = [['', `Tất cả (${all.length})`], ...hangs.map(h => [h, `Hạng ${h} (${all.filter(x => x.v.hang === h).length})`])]
+    .map(([val, label]) => `<button class="chip" data-miss-hang="${esc(val)}" aria-pressed="${state.missHang === val}">${esc(label)}</button>`).join('');
+  const shown = state.missHang ? all.filter(x => x.v.hang === state.missHang) : all;
+  if (!shown.length) {
+    $('#missList').innerHTML = `<div class="list"><div class="empty">Tất cả xe đã đủ thông tin.</div></div>`;
+    return;
+  }
+  $('#missList').innerHTML = shown.map(({ v, miss }) => `
+    <div class="card miss" data-row="${v.row}" tabindex="0">
+      <span class="plate">${esc(v.bienSo)}</span>
+      <span class="who">Hạng ${esc(v.hang)}, ${esc(carName(v))}. Thiếu ${miss.length} mục</span>
+      <button class="btn small admin-only" data-edit="${v.row}" data-from-missing="1">Bổ sung</button>
+      <span class="tags">${miss.map(k => `<span class="tag">${esc(LABEL[k])}</span>`).join('')}</span>
+    </div>`).join('');
+}
+$('#missChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  state.missHang = c.dataset.missHang; renderMissing();
+});
+
+function renderChips() {
+  const hangs = [...new Set(state.vehicles.map(v => v.hang).filter(Boolean))];
+  $('#hangChips').innerHTML = [['', 'Tất cả'], ...hangs.map(h => [h, 'Hạng ' + h])]
+    .map(([val, label]) => `<button class="chip" data-hang="${esc(val)}" aria-pressed="${state.hang === val}">${esc(label)}</button>`).join('');
+}
+
+function renderList() {
+  const q = fold($('#q').value);
+  const rows = state.vehicles.filter(v =>
+    (!state.hang || v.hang === state.hang) &&
+    (!q || ['bienSo', 'soKhung', 'soMay', 'imeiDAT', 'seriDAT', 'soHuu', 'nhanHieu', 'hangXe', 'soGPXTL', 'soCavet', 'soKiemDinh']
+      .some(k => fold(v[k]).includes(q))));
+  $('#resultCount').textContent = `${rows.length} xe`;
+  if (!rows.length) {
+    $('#vehicleList').innerHTML = `<div class="empty">Không có xe nào khớp. Thử bỏ bớt ký tự, hoặc thêm xe mới ở thẻ “Thêm xe”.</div>`;
+    return;
+  }
+  const exp = (v, k) => { const s = status(v[k]); return v[k] ? `${esc(v[k])} <span class="st ${s.cls}">${s.cls === 'ok' ? '' : s.text}</span>` : '<span class="muted">—</span>'; };
+  $('#vehicleList').innerHTML = `
+    <div class="row head"><span>Biển số</span><span>Xe</span><span>Hạng</span><span>Hết hạn kiểm định</span><span>Hết hạn GPXTL</span><span>Sở hữu</span><span></span></div>` +
+    rows.map(v => {
+      const m = missingFields(v).length;
+      return `
+    <div class="row" data-row="${v.row}" tabindex="0">
+      <span><span class="plate">${esc(v.bienSo)}</span></span>
+      <span>${esc(carName(v))}${v.namSX ? ` <span class="muted">${esc(v.namSX)}</span>` : ''}${m ? `<span class="miss-n">Thiếu ${m}</span>` : ''}</span>
+      <span><span class="cell-label">Hạng</span>${esc(v.hang)}</span>
+      <span><span class="cell-label">Kiểm định</span>${exp(v, 'hetHanKiemDinh')}</span>
+      <span><span class="cell-label">GPXTL</span>${exp(v, 'hetHanGPXTL')}</span>
+      <span><span class="cell-label">Sở hữu</span>${esc(v.soHuu) || '<span class="muted">—</span>'}</span>
+      <button class="btn small admin-only" data-edit="${v.row}">Chỉnh sửa</button>
+    </div>`;
+    }).join('');
+}
+
+$('#q').addEventListener('input', renderList);
+$('#hangChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  state.hang = c.dataset.hang; renderChips(); renderList();
+});
+
+/* Bấm nút "Chỉnh sửa/Bổ sung" -> form; bấm chỗ khác trên dòng -> xem chi tiết */
+function findRow(row) { return state.vehicles.find(x => x.row === +row); }
+document.addEventListener('click', e => {
+  const ed = e.target.closest('[data-edit]');
+  if (ed) { e.stopPropagation(); const v = findRow(ed.dataset.edit); if (v) startEdit(v, !!ed.dataset.fromMissing); return; }
+  const el = e.target.closest('.card[data-row], .row[data-row]');
+  if (el) openDetail(+el.dataset.row);
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const el = e.target.closest && e.target.closest('.card[data-row], .row[data-row]');
+  if (el && e.target === el) openDetail(+el.dataset.row);
+});
+
+/* ---------- chi tiết ---------- */
+function openDetail(row) {
+  const v = findRow(row); if (!v) return;
+  const miss = missingFields(v);
+  const val = k => {
+    if (!v[k]) return miss.includes(k) ? '<dd class="gap">Còn thiếu</dd>' : '<dd class="muted">—</dd>';
+    if (EXPIRY.some(f => f.key === k)) { const s = status(v[k]); return `<dd>${esc(v[k])} <span class="st ${s.cls}">${s.text}</span></dd>`; }
+    if (k === 'daNhapSo') return `<dd>${v.daNhapSo === 'x' ? 'Đã nhập' : esc(v.daNhapSo)}</dd>`;
+    return `<dd>${esc(v[k])}</dd>`;
+  };
+  const dlg = $('#detail');
+  dlg.innerHTML = `
+    <div class="dlg-head"><span class="plate big">${esc(v.bienSo)}</span>
+      <div><b>${esc(carName(v))}</b><br><span class="muted">Hạng ${esc(v.hang)}, dòng ${v.row} trong bảng${miss.length ? `. Còn thiếu ${miss.length} mục` : ''}</span></div></div>
+    <div class="dlg-body">${GROUPS.map(g => `
+      <h3>${g.title}</h3>
+      <dl class="kv">${g.fields.filter(f => f[0] !== 'bienSo').map(([k, label]) => `<dt>${label}</dt>${val(k)}`).join('')}</dl>`).join('')}
+    </div>
+    <div class="dlg-foot">
+      <button class="btn ghost" data-close>Đóng</button>
+      <button class="btn primary admin-only" data-dlg-edit>${miss.length ? 'Bổ sung thông tin' : 'Chỉnh sửa'}</button>
+    </div>`;
+  dlg.querySelector('[data-close]').onclick = () => dlg.close();
+  dlg.querySelector('[data-dlg-edit]').onclick = () => { dlg.close(); startEdit(v, false); };
+  dlg.showModal();
+}
+$('#detail').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
+/* ---------- form ---------- */
+function buildForm() {
+  $('#formGroups').innerHTML = GROUPS.map(g => `
+    <fieldset><legend>${g.title}</legend><div class="grid">${g.fields.map(([k, label, o = {}]) => {
+      const id = 'f-' + k;
+      let input;
+      if (o.select) input = `<select id="${id}" name="${k}">${o.select.map(([v, t]) => `<option value="${esc(v)}">${t}</option>`).join('')}</select>`;
+      else if (o.textarea) input = `<textarea id="${id}" name="${k}" rows="2"></textarea>`;
+      else input = `<input id="${id}" name="${k}" type="${o.type || 'text'}" ${o.list ? `list="dl-${k}"` : ''}
+        ${o.ph ? `placeholder="${esc(o.ph)}"` : ''} ${o.mode ? `inputmode="${o.mode}"` : ''} autocomplete="off">
+        ${o.list ? `<datalist id="dl-${k}"></datalist>` : ''}`;
+      return `<div class="field ${o.wide ? 'wide' : ''}" data-field="${k}"><label for="${id}">${label}${o.req ? ' <span class="req">*</span>' : ''}<span class="need">Còn thiếu</span></label>${input}
+        ${o.hint ? `<span class="hint">${o.hint}</span>` : ''}</div>`;
+    }).join('')}</div></fieldset>`).join('');
+
+  $('#f-bienSo').addEventListener('blur', e => { e.target.value = e.target.value.trim().toUpperCase(); });
+  $('#f-hetHanKiemDinh').addEventListener('change', e => { if (!$('#f-hetHanGPXTL').value) $('#f-hetHanGPXTL').value = e.target.value; });
+  $('#vehicleForm').addEventListener('input', () => { if (state.editing) markMissing(); });
+  $('#vehicleForm').addEventListener('change', () => { if (state.editing) markMissing(); });
+  resetForm();
+}
+
+function buildDatalists() {
+  ALL_FIELDS.filter(f => f[2] && f[2].list).forEach(([k]) => {
+    const vals = [...new Set(state.vehicles.map(v => v[k]).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'vi'));
+    const dl = document.getElementById('dl-' + k);
+    if (dl) dl.innerHTML = vals.map(v => `<option value="${esc(v)}">`).join('');
+  });
+}
+
+function readForm() {
+  const data = {};
+  for (const [k, v] of new FormData($('#vehicleForm')).entries()) data[k] = DATE_KEYS.includes(k) ? isoToDmy(v) : String(v).trim();
+  data.bienSo = (data.bienSo || '').toUpperCase();
+  return data;
+}
+
+/* Tô vàng các ô còn thiếu theo dữ liệu đang nhập trên form */
+function markMissing() {
+  const miss = missingFields(readForm());
+  document.querySelectorAll('.field[data-field]').forEach(f => f.classList.toggle('missing', miss.includes(f.dataset.field)));
+  const note = $('#missNote');
+  note.hidden = !miss.length;
+  note.textContent = miss.length ? `Còn thiếu ${miss.length} mục, đã tô vàng bên dưới. Có thể lưu trước phần đã có, bổ sung phần còn lại sau.` : '';
+  return miss;
+}
+
+function resetForm() {
+  state.editing = null;
+  state.fromMissing = false;
+  $('#vehicleForm').reset();
+  $('#f-soHuu').value = 'Trung tâm';
+  $('#f-daNhapSo').value = 'Chưa nhập';
+  document.querySelectorAll('.field.missing').forEach(f => f.classList.remove('missing'));
+  $('#missNote').hidden = true;
+  $('#formTitle').textContent = 'Thêm xe mới';
+  $('#saveBtn').textContent = 'Thêm xe';
+  $('#cancelEdit').hidden = true;
+  $('#saveNextBtn').hidden = true;
+}
+
+function startEdit(v, fromMissing) {
+  if (!isAdmin()) { openLogin('Cần đăng nhập quản trị để chỉnh sửa.'); return; }
+  resetForm();
+  state.editing = { row: v.row, bienSo: v.bienSo };
+  state.fromMissing = fromMissing;
+  ALL_FIELDS.forEach(([k]) => {
+    const el = document.getElementById('f-' + k); if (!el) return;
+    el.value = DATE_KEYS.includes(k) ? dmyToIso(v[k]) : (v[k] ?? '');
+  });
+  const miss = markMissing();
+  $('#formTitle').textContent = (miss.length ? 'Bổ sung thông tin xe ' : 'Chỉnh sửa xe ') + v.bienSo;
+  $('#saveBtn').textContent = 'Lưu thay đổi';
+  $('#cancelEdit').hidden = false;
+  $('#saveNextBtn').hidden = !fromMissing;
+  show('form');
+  const first = document.querySelector('.field.missing input, .field.missing select, .field.missing textarea');
+  if (first) { first.scrollIntoView({ block: 'center' }); first.focus({ preventScroll: true }); }
+}
+$('#cancelEdit').addEventListener('click', () => { const back = state.fromMissing ? 'missing' : 'search'; resetForm(); show(back); });
+
+$('#vehicleForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const goNext = !!(e.submitter && e.submitter.dataset.next);
+  const data = readForm();
+  if (!data.hetHanGPXTL && data.hetHanKiemDinh) data.hetHanGPXTL = data.hetHanKiemDinh;
+
+  if (!data.hang) return fieldError('f-hang', 'Nhập hạng xe (A, A1, B, B.01, C1…).');
+  if (!data.bienSo) return fieldError('f-bienSo', 'Nhập biển số xe.');
+  const dup = state.vehicles.find(v => fold(v.bienSo) === fold(data.bienSo) && (!state.editing || v.row !== state.editing.row));
+  if (dup) return fieldError('f-bienSo', `Biển số ${data.bienSo} đã có ở dòng ${dup.row}.`);
+
+  const buttons = [$('#saveBtn'), $('#saveNextBtn')];
+  buttons.forEach(b => { b.disabled = true; });
+  const clicked = e.submitter || $('#saveBtn'); const oldLabel = clicked.textContent;
+  clicked.textContent = 'Đang lưu…';
+  const editing = state.editing, fromMissing = state.fromMissing;
+  try {
+    if (editing) await api({ action: 'update', row: editing.row, bienSoCu: editing.bienSo, data });
+    else await api({ action: 'add', data });
+    toast(editing ? `Đã lưu thay đổi cho xe ${data.bienSo}` : `Đã thêm xe ${data.bienSo}`);
+    await load(true);
+
+    if (goNext) {
+      const list = missingList().filter(x => !state.missHang || x.v.hang === state.missHang);
+      const next = list.find(x => x.v.row > editing.row && x.v.row !== editing.row) || list.find(x => x.v.row !== editing.row);
+      if (next) { startEdit(next.v, true); return; }
+      toast('Đã bổ sung xong, không còn xe nào thiếu thông tin.');
+    }
+    resetForm();
+    if (fromMissing) { show('missing'); return; }
+    $('#q').value = data.bienSo; state.hang = ''; renderChips(); renderList();
+    show('search');
+  } catch (err) {
+    toast(err.message, true);
+  } finally {
+    buttons.forEach(b => { b.disabled = false; });
+    if (clicked.textContent === 'Đang lưu…') clicked.textContent = oldLabel;
+  }
+});
+
+function fieldError(id, msg) { toast(msg, true); document.getElementById(id).focus(); }
+
+let toastTimer;
+function toast(msg, bad) {
+  const t = $('#toast');
+  t.textContent = msg; t.className = 'show' + (bad ? ' bad' : '');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.className = ''; }, bad ? 5000 : 3000);
+}
+
+/* ---------- khởi động ---------- */
+buildForm();
+setAdmin(adminKey() || null);
+load();
+</script>
+</body>
+</html>
