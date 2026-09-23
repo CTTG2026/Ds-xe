@@ -3,210 +3,230 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Xe tập lái · CTTG</title>
+<title>Thông tin xe tập lái CTTG</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Barlow+Condensed:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#EEF2F6; --surface:#FFFFFF; --ink:#1B2430; --muted:#5B6675; --line:#D3DAE2;
-  --blue:#1F4E8C; --sign:#F2C230; --red:#C8252C; --orange:#C2410C; --amber:#B7791F; --olive:#7A6212; --green:#2E7D4F;
-  --soon-bg:#FFF6D6; --exp-bg:#FDE8E9; --miss-bg:#FFF8E1;
+  --yellow:#F2C230; --yellow-deep:#E0AC12; --ink:#1B2430; --paper:#F6F4EC; --surface:#FFFFFF;
+  --muted:#5E6570; --line:#DDD8C8;
+  --red:#C8252C; --orange:#C2410C; --amber:#B7791F; --olive:#7A6212; --green:#2E7D4F;
+  --soon-bg:#FFF4CC; --exp-bg:#FDE8E9; --miss-bg:#FFF6D6;
   --radius:10px;
   font-family:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   color:var(--ink); background:var(--paper);
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root{--paper:#121821;--surface:#1B2330;--ink:#E7ECF2;--muted:#9AA6B5;--line:#2E3948;
-        --blue:#2A5E9F;--soon-bg:#3A3212;--exp-bg:#3D1B1E;--miss-bg:#332B10;--green:#5CB883;
+  :root{--paper:#16181D;--surface:#20242B;--ink:#ECEEF1;--muted:#A3A9B3;--line:#343944;
+        --soon-bg:#3A3212;--exp-bg:#3D1B1E;--miss-bg:#332B10;--green:#5CB883;
         --orange:#FB923C;--amber:#F2C230;--olive:#D9C06A;--red:#F26B70}
 }
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;min-height:100vh;background:var(--paper);font-size:15px;line-height:1.5}
+body{margin:0;min-height:100vh;background:var(--paper);font-size:16px;line-height:1.55}
 button,input,select,textarea{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 [hidden]{display:none!important}
 body:not(.is-admin) .admin-only{display:none!important}
 body.is-admin .viewer-only{display:none!important}
 
-/* ---------- top bar ---------- */
-.topbar{position:sticky;top:0;z-index:5;background:var(--blue);color:#fff;padding:0 max(16px,env(safe-area-inset-left))}
-.topbar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:8px 24px;min-height:56px;flex-wrap:wrap}
-.brand{display:flex;align-items:baseline;gap:10px;font-weight:700;font-size:1.05rem}
-.brand small{font-weight:400;opacity:.8;font-size:.85rem}
-.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;max-width:100%}
-.tab{background:none;border:0;color:inherit;padding:16px 11px 13px;cursor:pointer;font-weight:500;white-space:nowrap;
-  border-bottom:3px solid transparent;opacity:.85}
-.tab[aria-selected="true"]{border-bottom-color:var(--sign);opacity:1;font-weight:600}
-.count{display:inline-block;min-width:1.5em;padding:0 .45em;margin-left:5px;border-radius:99px;
-  background:var(--sign);color:#1B2430;font-size:.78rem;font-weight:700;text-align:center}
+/* ---------- masthead: tấm biển vàng ---------- */
+.mast{background:var(--yellow);color:#1B2430;border-bottom:5px solid #1B2430;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) 0 env(safe-area-inset-left,0px)}
+.mast-inner{max-width:1120px;margin:0 auto;padding:0 16px}
+.mast-top{display:flex;align-items:center;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;padding:14px 0 6px}
+.nav{display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap}
+.nav-link{background:none;border:0;border-bottom:3px solid transparent;padding:8px 10px 6px;font-weight:600;cursor:pointer;color:#1B2430;white-space:nowrap}
+.nav-link[aria-current="page"]{border-bottom-color:#1B2430}
+.count{display:inline-block;min-width:1.6em;padding:0 .45em;margin-left:6px;border-radius:99px;
+  background:#1B2430;color:var(--yellow);font-size:.8rem;font-weight:700;text-align:center}
 .count:empty{display:none}
-.admin-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:99px;
-  padding:5px 14px;font-size:.86rem;font-weight:500;cursor:pointer;white-space:nowrap}
-.admin-btn:hover{background:rgba(255,255,255,.22)}
-body.is-admin .admin-btn{background:var(--sign);color:#1B2430;border-color:var(--sign)}
+.admin-btn{background:transparent;border:2px solid #1B2430;color:#1B2430;border-radius:99px;padding:5px 16px;font-weight:600;cursor:pointer;white-space:nowrap}
+body.is-admin .admin-btn{background:#1B2430;color:var(--yellow)}
+.title{display:block;margin:0;padding:10px 0 4px;font-weight:800;letter-spacing:-.01em;line-height:1.05;
+  font-size:clamp(2rem,6vw,3.6rem);color:#1B2430;text-decoration:none;cursor:pointer;background:none;border:0;text-align:left}
+.subtitle{margin:4px 0 18px;font-size:1.05rem;font-weight:500;opacity:.8}
+.searchbar{display:flex;gap:10px;padding-bottom:26px;max-width:760px}
+.searchbar input{flex:1;min-width:0;padding:14px 18px;font-size:1.1rem;border:2px solid #1B2430;border-radius:10px;background:#FFFFFF;color:#1B2430}
+.searchbar input::placeholder{color:#6B7280}
+.searchbar button{padding:0 26px;font-size:1.1rem;font-weight:700;border:0;border-radius:10px;background:#1B2430;color:var(--yellow);cursor:pointer}
+.searchbar button:hover{background:#000}
+body:not(.page-home) .searchbar,body:not(.page-home) .subtitle{display:none}
+body:not(.page-home) .title{font-size:clamp(1.4rem,3.5vw,2rem);padding-bottom:14px}
 
-main{max-width:1100px;margin:0 auto;padding:24px 16px 64px}
-h1{font-size:1.5rem;line-height:1.25;margin:0;font-weight:700}
-.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+main{max-width:1120px;margin:0 auto;padding:28px 16px 72px}
+h2{font-size:1.55rem;line-height:1.25;margin:0;font-weight:800}
+.section{margin-bottom:40px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .muted{color:var(--muted)}
-.lead{margin:-8px 0 18px;color:var(--muted);max-width:70ch}
+.lead{margin:-6px 0 16px;color:var(--muted);max-width:70ch}
+.back{background:none;border:0;padding:0;margin-bottom:14px;font-weight:600;color:var(--muted);cursor:pointer}
+.back:hover{color:var(--ink)}
 
-/* ---------- license plate ---------- */
+/* ---------- biển số ---------- */
 .plate{display:inline-block;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;
-  font-size:1.2rem;letter-spacing:.04em;line-height:1.3;white-space:nowrap;
+  font-size:1.3rem;letter-spacing:.04em;line-height:1.3;white-space:nowrap;
   background:#FFFFFF;color:#101820;border:1px solid #101820;border-radius:5px;padding:1px 10px;
   box-shadow:inset 0 0 0 2px #FFFFFF, inset 0 0 0 3px #101820}
-.plate.big{font-size:2rem;padding:2px 16px;border-radius:7px}
+.plate.big{font-size:2.1rem;padding:2px 16px;border-radius:7px}
 
 /* ---------- mức cảnh báo ---------- */
 .st{font-weight:600;white-space:nowrap}
 .st.exp,.st.t7{color:var(--red)} .st.t15{color:var(--orange)} .st.t30{color:var(--amber)} .st.t45{color:var(--olive)} .st.ok{color:var(--green)}
-
-/* ---------- tầng cảnh báo ---------- */
-.tiers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:20px}
+.tiers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:14px}
 @media (max-width:760px){.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tier{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--line);border-radius:var(--radius);
   padding:10px 14px;text-align:left;cursor:pointer}
 .tier b{display:block;font-size:1.7rem;line-height:1.1}
-.tier span{font-size:.88rem;color:var(--muted)}
-.tier.exp{border-top-color:var(--red)} .tier.t7{border-top-color:var(--red)} .tier.t15{border-top-color:var(--orange)}
-.tier.t30{border-top-color:var(--amber)} .tier.t45{border-top-color:var(--sign)}
+.tier span{font-size:.9rem;color:var(--muted)}
+.tier.exp,.tier.t7{border-top-color:var(--red)} .tier.t15{border-top-color:var(--orange)}
+.tier.t30{border-top-color:var(--amber)} .tier.t45{border-top-color:var(--yellow)}
 .tier[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-2px}
 
 .card{display:grid;grid-template-columns:auto 1fr auto;gap:6px 16px;align-items:center;
-  background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sign);
+  background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--yellow);
   border-radius:var(--radius);padding:12px 16px;margin-bottom:10px;cursor:pointer}
 .card.exp,.card.t7{border-left-color:var(--red)} .card.t15{border-left-color:var(--orange)} .card.t30{border-left-color:var(--amber)}
 .card.miss{border-left-color:var(--muted)}
 .card:hover{border-color:var(--muted)}
-.card .who{font-size:.9rem;color:var(--muted)}
+.card .who{color:var(--muted)}
 .card .tags{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
-.doc{display:inline-flex;gap:8px;align-items:baseline;border-radius:6px;padding:3px 10px;font-size:.88rem;background:var(--soon-bg)}
+.doc{display:inline-flex;gap:8px;align-items:baseline;border-radius:6px;padding:3px 10px;font-size:.92rem;background:var(--soon-bg)}
 .doc.exp,.doc.t7{background:var(--exp-bg)}
 .doc b{font-weight:600}
-.tag{border:1px dashed var(--muted);border-radius:6px;padding:1px 8px;font-size:.84rem;color:var(--muted)}
-.miss-n{display:inline-block;font-size:.78rem;font-weight:600;color:var(--amber);border:1px solid currentColor;border-radius:99px;padding:0 8px;margin-left:6px;white-space:nowrap}
+.tag{border:1px dashed var(--muted);border-radius:6px;padding:1px 8px;font-size:.88rem;color:var(--muted)}
+.miss-n{display:inline-block;font-size:.8rem;font-weight:600;color:var(--amber);border:1px solid currentColor;border-radius:99px;padding:0 8px;margin-left:6px;white-space:nowrap}
 
-/* ---------- tra cứu ---------- */
-.search{flex:1 1 320px;padding:11px 14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+/* ---------- danh sách xe ---------- */
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 14px;cursor:pointer}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 15px;cursor:pointer;font-weight:500}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.result{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--soon-bg);border:1px solid var(--yellow-deep);
+  border-radius:var(--radius);padding:10px 14px;margin-bottom:14px}
 .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.row{display:grid;grid-template-columns:150px minmax(0,1.4fr) 60px 1fr 1fr minmax(0,1fr) auto;gap:12px;align-items:center;
-  padding:10px 16px;border-top:1px solid var(--line);cursor:pointer}
+.row{display:grid;grid-template-columns:160px minmax(0,1.4fr) 64px 1fr 1fr minmax(0,1.1fr) auto;gap:12px;align-items:center;
+  padding:11px 16px;border-top:1px solid var(--line);cursor:pointer}
 .row:first-child{border-top:0}
 .row:hover{background:var(--paper)}
-.row.head{cursor:default;font-size:.8rem;color:var(--muted);font-weight:600;background:var(--paper)}
+.row.head{cursor:default;font-size:.85rem;color:var(--muted);font-weight:600;background:var(--paper)}
 .row .cell-label{display:none}
+.row.hit{background:var(--soon-bg)}
 @media (max-width:760px){
   .row{grid-template-columns:auto 1fr auto;gap:4px 12px}
   .row.head{display:none}
-  .row .cell-label{display:inline;color:var(--muted);font-size:.82rem;margin-right:6px}
+  .row .cell-label{display:inline;color:var(--muted);font-size:.85rem;margin-right:6px}
   .row > :nth-child(n+3):not(.btn){grid-column:1/-1}
   .row > .btn{grid-row:1;grid-column:3}
 }
-.empty{padding:32px 16px;text-align:center;color:var(--muted)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
 
 /* ---------- nút ---------- */
 .btn{border:0;border-radius:8px;padding:11px 20px;font-weight:600;cursor:pointer;white-space:nowrap}
-.btn.primary{background:var(--blue);color:#fff}
+.btn.primary{background:var(--ink);color:var(--yellow)}
+@media (prefers-color-scheme:dark){.btn.primary{background:var(--yellow);color:#1B2430}}
 .btn.ghost{background:transparent;border:1px solid var(--line)}
-.btn.small{padding:6px 12px;font-size:.88rem;background:var(--paper);border:1px solid var(--line)}
-.btn.small:hover{border-color:var(--blue);color:var(--blue)}
+.btn.small{padding:6px 12px;font-size:.9rem;background:var(--paper);border:1px solid var(--line)}
+.btn.small:hover{border-color:var(--ink)}
 .btn:disabled{opacity:.6;cursor:progress}
 
 /* ---------- form ---------- */
-form{display:grid;gap:20px}
+form.vf{display:grid;gap:20px}
 fieldset{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:16px 18px 18px;margin:0}
 legend{font-weight:700;padding:0 6px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
 .field{display:flex;flex-direction:column;gap:4px}
 .field.wide{grid-column:1/-1}
-.field label{font-size:.88rem;font-weight:500;display:flex;gap:8px;align-items:baseline}
+.field label{font-size:.92rem;font-weight:500;display:flex;gap:8px;align-items:baseline}
 .field label .req{color:var(--red)}
-.field label .need{display:none;font-size:.76rem;font-weight:600;color:var(--amber)}
-.field input,.field select,.field textarea{padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--paper);min-height:42px}
-.field.missing input,.field.missing select,.field.missing textarea{border:2px solid var(--sign);background:var(--miss-bg)}
+.field label .need{display:none;font-size:.78rem;font-weight:600;color:var(--amber)}
+.field input,.field select,.field textarea{padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);min-height:44px}
+.field.missing input,.field.missing select,.field.missing textarea{border:2px solid var(--yellow-deep);background:var(--miss-bg)}
 .field.missing label .need{display:inline}
-.field .hint{font-size:.8rem;color:var(--muted)}
-.miss-note{background:var(--miss-bg);border:1px solid var(--sign);border-radius:var(--radius);padding:10px 14px;margin:-4px 0 0}
+.field .hint{font-size:.82rem;color:var(--muted)}
+.miss-note{background:var(--miss-bg);border:1px solid var(--yellow-deep);border-radius:var(--radius);padding:10px 14px;margin:0}
 .actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;position:sticky;bottom:0;padding:12px 0;background:var(--paper)}
 
 /* ---------- dialog ---------- */
 dialog{border:0;border-radius:14px;padding:0;width:min(720px,94vw);max-height:90vh;background:var(--surface);color:var(--ink)}
 dialog::backdrop{background:rgba(16,24,32,.55)}
-.dlg-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:20px 22px 12px;border-bottom:1px solid var(--line)}
-.dlg-body{padding:8px 22px 20px;overflow:auto;max-height:calc(90vh - 150px)}
-.dlg-body h3{font-size:.95rem;margin:18px 0 6px}
-.kv{display:grid;grid-template-columns:190px 1fr;gap:4px 12px;font-size:.93rem}
+.dlg-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:20px 22px 12px;border-bottom:1px solid var(--line);border-top:6px solid var(--yellow)}
+.dlg-body{padding:8px 22px 20px;overflow:auto;max-height:calc(90vh - 160px)}
+.dlg-body h3{font-size:1rem;margin:18px 0 6px}
+.kv{display:grid;grid-template-columns:200px 1fr;gap:4px 12px}
 @media (max-width:520px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
 .kv dt{color:var(--muted)} .kv dd{margin:0;word-break:break-word}
 .kv dd.gap{color:var(--amber);font-weight:500}
 .dlg-foot{display:flex;justify-content:flex-end;gap:10px;padding:12px 22px 18px;border-top:1px solid var(--line)}
-
-/* ---------- login, toast ---------- */
-#loginDlg{width:min(400px,92vw)}
+#loginDlg{width:min(420px,92vw)}
 .login{padding:24px}
-.login p{margin:.4rem 0 1rem}
-.err{color:var(--red);font-size:.9rem;min-height:1.4em;margin:.5rem 0 0}
+.login h2{margin-bottom:6px}
+.err{color:var(--red);font-size:.92rem;min-height:1.4em;margin:.5rem 0 0}
+
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
   background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:8px;transition:.2s;pointer-events:none;z-index:20;max-width:90vw}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 #toast.bad{background:var(--red);color:#fff}
 .loading{padding:40px 0;text-align:center;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}html{scroll-behavior:auto}}
+html{scroll-behavior:smooth}
 </style>
 </head>
-<body>
+<body class="page-home">
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">Xe tập lái <small>Trung tâm Chiến Thắng</small></div>
-    <nav class="tabs" role="tablist" id="tabs">
-      <button class="tab" role="tab" data-view="alerts" aria-selected="true">Cảnh báo<span class="count" id="alertCount"></span></button>
-      <button class="tab" role="tab" data-view="missing" aria-selected="false">Thiếu thông tin<span class="count" id="missCount"></span></button>
-      <button class="tab" role="tab" data-view="search" aria-selected="false">Tra cứu</button>
-      <button class="tab admin-only" role="tab" data-view="form" aria-selected="false">Thêm xe</button>
-    </nav>
-    <button class="admin-btn" id="adminBtn" type="button">Quản trị</button>
+<header class="mast">
+  <div class="mast-inner">
+    <div class="mast-top">
+      <nav class="nav" aria-label="Chức năng">
+        <button class="nav-link" data-view="missing">Thiếu thông tin<span class="count" id="missCount"></span></button>
+        <button class="nav-link admin-only" data-view="form">Thêm xe</button>
+        <button class="admin-btn" id="adminBtn" type="button">Quản trị</button>
+      </nav>
+    </div>
+    <button class="title" id="homeLink" type="button">THÔNG TIN XE TẬP LÁI CTTG</button>
+    <p class="subtitle">Trung tâm đào tạo lái xe Chiến Thắng, Tiền Giang</p>
+    <form class="searchbar" id="searchForm" role="search">
+      <input id="q" type="search" placeholder="Nhập biển số, IMEI DAT hoặc tên chủ xe" autocomplete="off" aria-label="Tra cứu xe">
+      <button type="submit">Tra cứu</button>
+    </form>
   </div>
 </header>
 
 <main>
-
   <div id="loading" class="loading" hidden>Đang tải danh sách xe…</div>
 
-  <section id="view-alerts" hidden>
-    <div class="bar"><h1>Giấy tờ sắp hết hạn</h1></div>
-    <p class="lead">Theo dõi hạn kiểm định, giấy phép xe tập lái và hợp đồng thuê xe, báo ở bốn mốc 45, 30, 15 và 7 ngày. Bấm vào một mốc để chỉ xem mốc đó.</p>
-    <div class="tiers" id="tiers"></div>
-    <div id="alertList"></div>
-  </section>
+  <!-- TRANG CHÍNH -->
+  <div id="view-home" hidden>
+    <section class="section" id="sec-alerts">
+      <div class="sec-head"><h2>Xe sắp hết hạn</h2><span class="muted">Kiểm định, GPXTL, hợp đồng thuê xe</span></div>
+      <div class="tiers" id="tiers"></div>
+      <div id="alertList"></div>
+    </section>
 
+    <section class="section" id="sec-list">
+      <div class="sec-head"><h2>Danh sách xe tập lái</h2><span class="muted" id="resultCount"></span></div>
+      <div class="result" id="resultBar" hidden></div>
+      <div class="chips" id="hangChips"></div>
+      <div class="list" id="vehicleList"></div>
+    </section>
+  </div>
+
+  <!-- THIẾU THÔNG TIN -->
   <section id="view-missing" hidden>
-    <div class="bar"><h1>Xe còn thiếu thông tin</h1></div>
-    <p class="lead admin-only">Bấm “Bổ sung” để mở form, các ô còn trống được tô vàng. Sau khi lưu có thể chuyển thẳng sang xe kế tiếp.</p>
-    <p class="lead viewer-only">Danh sách xe còn trống thông tin. Muốn bổ sung, bấm “Quản trị” ở góc trên để đăng nhập.</p>
+    <button class="back" data-go-home>‹ Về danh sách xe</button>
+    <div class="sec-head"><h2>Xe còn thiếu thông tin</h2></div>
+    <p class="lead admin-only">Bấm “Bổ sung” để mở form, các ô còn trống được tô vàng. Sau khi lưu có thể chuyển thẳng sang xe kế tiếp. Xe hạng A, A1 không bị kiểm tra.</p>
+    <p class="lead viewer-only">Danh sách ô tô còn trống thông tin (không tính xe hạng A, A1). Muốn bổ sung, bấm “Quản trị” ở góc trên để đăng nhập.</p>
     <div class="chips" id="missChips"></div>
     <div id="missList"></div>
   </section>
 
-  <section id="view-search" hidden>
-    <div class="bar">
-      <input id="q" class="search" type="search" placeholder="Biển số, số khung, số máy, IMEI, chủ xe…" autocomplete="off">
-    </div>
-    <div class="chips" id="hangChips"></div>
-    <p class="muted" id="resultCount"></p>
-    <div class="list" id="vehicleList"></div>
-  </section>
-
+  <!-- THÊM / SỬA XE -->
   <section id="view-form" hidden>
-    <div class="bar"><h1 id="formTitle">Thêm xe mới</h1></div>
-    <form id="vehicleForm" novalidate>
+    <button class="back" data-go-home>‹ Về danh sách xe</button>
+    <div class="sec-head"><h2 id="formTitle">Thêm xe mới</h2></div>
+    <form class="vf" id="vehicleForm" novalidate>
       <p class="miss-note" id="missNote" hidden></p>
       <div id="formGroups" style="display:grid;gap:20px"></div>
       <div class="actions">
@@ -221,7 +241,7 @@ dialog::backdrop{background:rgba(16,24,32,.55)}
 <dialog id="detail"></dialog>
 <dialog id="loginDlg">
   <form class="login" id="loginForm">
-    <h1>Đăng nhập quản trị</h1>
+    <h2>Đăng nhập quản trị</h2>
     <p class="muted">Cần quyền quản trị để thêm xe mới và chỉnh sửa thông tin. Xem và tra cứu thì không cần đăng nhập.</p>
     <div class="field"><label for="pw">Mật khẩu quản trị</label><input id="pw" type="password" autocomplete="current-password"></div>
     <p class="err" id="loginErr"></p>
@@ -236,7 +256,7 @@ dialog::backdrop{background:rgba(16,24,32,.55)}
 <script>
 /* ============ CẤU HÌNH: dán URL Web App của Apps Script vào đây ============ */
 const API_URL = 'https://script.google.com/macros/s/AKfycbyNrrSOQZFhAcHgB4wCdfgp-q2IVfp_E8BdwIpuE1RMq-rwdpf7gTvRUXY3Fbqb2Sig/exec';
-const ADMIN_STORE = 'cttg_xe_admin';   // mật khẩu quản trị lưu trên máy sau khi đăng nhập
+const ADMIN_STORE = 'cttg_xe_admin';
 
 /* Bốn mốc cảnh báo (ngày) */
 const TIERS = [
@@ -245,21 +265,23 @@ const TIERS = [
   { cls: 't30', max: 30, label: 'Còn 16 đến 30 ngày' },
   { cls: 't45', max: 45, label: 'Còn 31 đến 45 ngày' },
 ];
-
-/* Giấy tờ được theo dõi hạn */
 const EXPIRY = [
   { key: 'hetHanKiemDinh', label: 'Kiểm định' },
   { key: 'hetHanGPXTL', label: 'GPXTL' },
   { key: 'hetHanHD', label: 'HĐ thuê xe' },
 ];
 
-/* Quy tắc "đủ thông tin" – sửa danh sách này nếu muốn kiểm tra thêm/bớt ô */
+/* Tra cứu theo các trường này (bỏ qua dấu . - và khoảng trắng, không phân biệt dấu tiếng Việt) */
+const SEARCH_KEYS = ['bienSo', 'imeiDAT', 'soHuu'];
+
+/* Hạng không kiểm tra thiếu thông tin */
+const SKIP_MISSING_HANG = ['A', 'A1'];
+
+/* Quy tắc "đủ thông tin" cho ô tô */
 const REQUIRED = {
-  tatCa: ['loaiXe', 'hangXe', 'nhanHieu', 'namSX', 'mauSon', 'soCavet', 'soMay', 'soKhung', 'soHuu'],
-  // chỉ áp dụng cho ô tô (hạng B, B.01, C1…); mô tô hạng A/A1 bỏ qua
-  oTo: ['soKiemDinh', 'ngayKiemDinh', 'hetHanKiemDinh', 'soGPXTL', 'ngayCapGPXTL', 'hetHanGPXTL', 'seriDAT', 'imeiDAT'],
-  // chỉ áp dụng khi chủ sở hữu không phải "Trung tâm"
-  xeThue: ['ngayKyHD', 'hetHanHD'],
+  tatCa: ['loaiXe', 'hangXe', 'nhanHieu', 'namSX', 'mauSon', 'soCavet', 'soMay', 'soKhung', 'soHuu',
+          'soKiemDinh', 'ngayKiemDinh', 'hetHanKiemDinh', 'soGPXTL', 'ngayCapGPXTL', 'hetHanGPXTL', 'seriDAT', 'imeiDAT'],
+  xeThue: ['ngayKyHD', 'hetHanHD'],   // khi chủ sở hữu không phải "Trung tâm"
 };
 
 const GROUPS = [
@@ -304,7 +326,7 @@ const ALL_FIELDS = GROUPS.flatMap(g => g.fields);
 const LABEL = Object.fromEntries(ALL_FIELDS.map(([k, l]) => [k, l]));
 const DATE_KEYS = ALL_FIELDS.filter(f => f[2] && f[2].type === 'date').map(f => f[0]);
 
-const state = { vehicles: [], hang: '', missHang: '', tier: '', editing: null, fromMissing: false, view: 'alerts' };
+const state = { vehicles: [], q: '', hang: '', missHang: '', tier: '', editing: null, fromMissing: false, view: 'home' };
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -332,18 +354,17 @@ function status(s) {
 }
 const RANK = { exp: 0, t7: 1, t15: 2, t30: 3, t45: 4 };
 
-/* ---------- thiếu thông tin ---------- */
-const isMoto = v => /^A/i.test(v.hang || '') || /moto|xe so|tay ga/.test(fold(v.loaiXe));
+/* ---------- thiếu thông tin (bỏ qua hạng A, A1) ---------- */
+const skipMissing = v => SKIP_MISSING_HANG.some(h => fold(h) === fold(v.hang));
 const isThue = v => v.soHuu && fold(v.soHuu) !== 'trungtam';
 function missingFields(v) {
+  if (skipMissing(v)) return [];
   const keys = [...REQUIRED.tatCa];
-  if (!isMoto(v)) keys.push(...REQUIRED.oTo);
   if (isThue(v)) keys.push(...REQUIRED.xeThue);
   return keys.filter(k => !String(v[k] ?? '').trim());
 }
 
 /* ---------- API ---------- */
-/* Đọc: không cần mật khẩu. Ghi: gửi kèm mật khẩu quản trị */
 async function api(payload, keyOverride) {
   const res = payload
     ? await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -357,6 +378,21 @@ async function api(payload, keyOverride) {
   return data;
 }
 
+async function load(keepView) {
+  $('#loading').hidden = false;
+  try {
+    const data = await api();
+    state.vehicles = data.vehicles;
+    buildDatalists();
+    renderAll();
+    if (!keepView) show(state.view);
+  } catch (e) {
+    toast('Không tải được danh sách: ' + e.message, true);
+  } finally {
+    $('#loading').hidden = true;
+  }
+}
+
 /* ---------- quyền quản trị ---------- */
 const adminKey = () => localStorage.getItem(ADMIN_STORE) || '';
 const isAdmin = () => !!adminKey();
@@ -364,7 +400,7 @@ function setAdmin(key) {
   if (key) localStorage.setItem(ADMIN_STORE, key); else localStorage.removeItem(ADMIN_STORE);
   document.body.classList.toggle('is-admin', !!key);
   $('#adminBtn').textContent = key ? 'Thoát quản trị' : 'Quản trị';
-  if (!key && state.view === 'form') { resetForm(); show('search'); }
+  if (!key && state.view === 'form') { resetForm(); show('home'); }
 }
 function openLogin(msg) {
   $('#loginErr').textContent = msg || '';
@@ -394,36 +430,36 @@ $('#loginForm').addEventListener('submit', async e => {
   }
 });
 
-async function load(keepView) {
-  $('#loading').hidden = false;
-  try {
-    const data = await api();
-    state.vehicles = data.vehicles;
-    buildDatalists();
-    renderAll();
-    if (!keepView) show(state.view);
-  } catch (e) {
-    toast('Không tải được danh sách: ' + e.message, true);
-  } finally {
-    $('#loading').hidden = true;
-  }
-}
-
 /* ---------- điều hướng ---------- */
-const VIEWS = ['alerts', 'missing', 'search', 'form'];
+const VIEWS = ['home', 'missing', 'form'];
 function show(view) {
   state.view = view;
   VIEWS.forEach(v => { $('#view-' + v).hidden = v !== view; });
-  document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', t.dataset.view === view));
-  window.scrollTo(0, 0);
+  document.body.classList.toggle('page-home', view === 'home');
+  document.querySelectorAll('.nav-link').forEach(t => {
+    if (t.dataset.view === view) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current');
+  });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 }
-$('#tabs').addEventListener('click', e => {
-  const t = e.target.closest('.tab'); if (!t) return;
+document.querySelector('.nav').addEventListener('click', e => {
+  const t = e.target.closest('.nav-link'); if (!t) return;
   if (t.dataset.view === 'form' && !isAdmin()) { openLogin(); return; }
   if (t.dataset.view === 'form' && state.editing) resetForm();
   show(t.dataset.view);
 });
+$('#homeLink').addEventListener('click', () => { if (state.view === 'form' && state.editing) resetForm(); show('home'); });
+document.addEventListener('click', e => { if (e.target.closest('[data-go-home]')) { resetForm(); show('home'); } });
 
+/* ---------- tra cứu ---------- */
+$('#searchForm').addEventListener('submit', e => {
+  e.preventDefault();
+  state.q = $('#q').value.trim();
+  state.hang = '';
+  renderChips(); renderList();
+  $('#sec-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+$('#q').addEventListener('input', e => { if (!e.target.value && state.q) { state.q = ''; renderList(); } });
+function clearSearch() { state.q = ''; $('#q').value = ''; renderList(); $('#q').focus(); }
 
 /* ---------- render ---------- */
 function renderAll() { renderAlerts(); renderMissing(); renderChips(); renderList(); }
@@ -441,7 +477,6 @@ function renderAlerts() {
 
   const docsAll = groups.flatMap(g => g.docs);
   const counts = cls => docsAll.filter(d => d.st.cls === cls).length;
-  $('#alertCount').textContent = groups.length || '';
   $('#tiers').innerHTML = [{ cls: 'exp', label: 'Đã quá hạn' }, ...TIERS]
     .map(t => `<button class="tier ${t.cls}" data-tier="${t.cls}" aria-pressed="${state.tier === t.cls}"><b>${counts(t.cls)}</b><span>${t.label}</span></button>`).join('');
 
@@ -452,7 +487,7 @@ function renderAlerts() {
       const l = daysLeft(v[f.key]);
       if (l !== null && l >= 0 && (!next || l < next.l)) next = { v, f, l };
     }));
-    $('#alertList').innerHTML = `<div class="list"><div class="empty">${state.tier ? 'Không có giấy tờ nào ở mốc này.' : 'Không có giấy tờ nào hết hạn trong 45 ngày tới.'}${
+    $('#alertList').innerHTML = `<div class="list"><div class="empty">${state.tier ? 'Không có giấy tờ nào ở mốc này.' : 'Không có xe nào hết hạn trong 45 ngày tới.'}${
       next && !state.tier ? `<br>Gần nhất: <span class="plate">${esc(next.v.bienSo)}</span>, ${next.f.label} hết hạn ${esc(next.v[next.f.key])} (còn ${next.l} ngày).` : ''}</div></div>`;
     return;
   }
@@ -503,16 +538,28 @@ function renderChips() {
   $('#hangChips').innerHTML = [['', 'Tất cả'], ...hangs.map(h => [h, 'Hạng ' + h])]
     .map(([val, label]) => `<button class="chip" data-hang="${esc(val)}" aria-pressed="${state.hang === val}">${esc(label)}</button>`).join('');
 }
+$('#hangChips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  state.hang = c.dataset.hang; renderChips(); renderList();
+});
 
 function renderList() {
-  const q = fold($('#q').value);
+  const q = fold(state.q);
   const rows = state.vehicles.filter(v =>
     (!state.hang || v.hang === state.hang) &&
-    (!q || ['bienSo', 'soKhung', 'soMay', 'imeiDAT', 'seriDAT', 'soHuu', 'nhanHieu', 'hangXe', 'soGPXTL', 'soCavet', 'soKiemDinh']
-      .some(k => fold(v[k]).includes(q))));
-  $('#resultCount').textContent = `${rows.length} xe`;
+    (!q || SEARCH_KEYS.some(k => fold(v[k]).includes(q))));
+
+  const bar = $('#resultBar');
+  if (state.q) {
+    bar.hidden = false;
+    bar.innerHTML = `<span>Kết quả tra cứu “<b>${esc(state.q)}</b>”: <b>${rows.length}</b> xe</span>
+      <button class="btn small" id="clearSearch">Xem lại toàn bộ danh sách</button>`;
+    $('#clearSearch').onclick = clearSearch;
+  } else bar.hidden = true;
+  $('#resultCount').textContent = `${rows.length} / ${state.vehicles.length} xe`;
+
   if (!rows.length) {
-    $('#vehicleList').innerHTML = `<div class="empty">Không có xe nào khớp. Thử bỏ bớt ký tự, hoặc thêm xe mới ở thẻ “Thêm xe”.</div>`;
+    $('#vehicleList').innerHTML = `<div class="empty">Không tìm thấy xe nào. Kiểm tra lại biển số, IMEI hoặc tên chủ xe, có thể chỉ nhập một phần, ví dụ “20317” hoặc “Tram”.</div>`;
     return;
   }
   const exp = (v, k) => { const s = status(v[k]); return v[k] ? `${esc(v[k])} <span class="st ${s.cls}">${s.cls === 'ok' ? '' : s.text}</span>` : '<span class="muted">—</span>'; };
@@ -521,7 +568,7 @@ function renderList() {
     rows.map(v => {
       const m = missingFields(v).length;
       return `
-    <div class="row" data-row="${v.row}" tabindex="0">
+    <div class="row ${q ? 'hit' : ''}" data-row="${v.row}" tabindex="0">
       <span><span class="plate">${esc(v.bienSo)}</span></span>
       <span>${esc(carName(v))}${v.namSX ? ` <span class="muted">${esc(v.namSX)}</span>` : ''}${m ? `<span class="miss-n">Thiếu ${m}</span>` : ''}</span>
       <span><span class="cell-label">Hạng</span>${esc(v.hang)}</span>
@@ -533,17 +580,11 @@ function renderList() {
     }).join('');
 }
 
-$('#q').addEventListener('input', renderList);
-$('#hangChips').addEventListener('click', e => {
-  const c = e.target.closest('.chip'); if (!c) return;
-  state.hang = c.dataset.hang; renderChips(); renderList();
-});
-
-/* Bấm nút "Chỉnh sửa/Bổ sung" -> form; bấm chỗ khác trên dòng -> xem chi tiết */
+/* Nút "Chỉnh sửa/Bổ sung" -> form; bấm chỗ khác trên dòng -> xem chi tiết */
 function findRow(row) { return state.vehicles.find(x => x.row === +row); }
 document.addEventListener('click', e => {
   const ed = e.target.closest('[data-edit]');
-  if (ed) { e.stopPropagation(); const v = findRow(ed.dataset.edit); if (v) startEdit(v, !!ed.dataset.fromMissing); return; }
+  if (ed) { const v = findRow(ed.dataset.edit); if (v) startEdit(v, !!ed.dataset.fromMissing); return; }
   const el = e.target.closest('.card[data-row], .row[data-row]');
   if (el) openDetail(+el.dataset.row);
 });
@@ -566,7 +607,7 @@ function openDetail(row) {
   const dlg = $('#detail');
   dlg.innerHTML = `
     <div class="dlg-head"><span class="plate big">${esc(v.bienSo)}</span>
-      <div><b>${esc(carName(v))}</b><br><span class="muted">Hạng ${esc(v.hang)}, dòng ${v.row} trong bảng${miss.length ? `. Còn thiếu ${miss.length} mục` : ''}</span></div></div>
+      <div><b>${esc(carName(v))}</b><br><span class="muted">Hạng ${esc(v.hang)}${miss.length ? `. Còn thiếu ${miss.length} mục` : ''}</span></div></div>
     <div class="dlg-body">${GROUPS.map(g => `
       <h3>${g.title}</h3>
       <dl class="kv">${g.fields.filter(f => f[0] !== 'bienSo').map(([k, label]) => `<dt>${label}</dt>${val(k)}`).join('')}</dl>`).join('')}
@@ -618,7 +659,6 @@ function readForm() {
   return data;
 }
 
-/* Tô vàng các ô còn thiếu theo dữ liệu đang nhập trên form */
 function markMissing() {
   const miss = missingFields(readForm());
   document.querySelectorAll('.field[data-field]').forEach(f => f.classList.toggle('missing', miss.includes(f.dataset.field)));
@@ -660,7 +700,7 @@ function startEdit(v, fromMissing) {
   const first = document.querySelector('.field.missing input, .field.missing select, .field.missing textarea');
   if (first) { first.scrollIntoView({ block: 'center' }); first.focus({ preventScroll: true }); }
 }
-$('#cancelEdit').addEventListener('click', () => { const back = state.fromMissing ? 'missing' : 'search'; resetForm(); show(back); });
+$('#cancelEdit').addEventListener('click', () => { const back = state.fromMissing ? 'missing' : 'home'; resetForm(); show(back); });
 
 $('#vehicleForm').addEventListener('submit', async e => {
   e.preventDefault();
@@ -671,7 +711,7 @@ $('#vehicleForm').addEventListener('submit', async e => {
   if (!data.hang) return fieldError('f-hang', 'Nhập hạng xe (A, A1, B, B.01, C1…).');
   if (!data.bienSo) return fieldError('f-bienSo', 'Nhập biển số xe.');
   const dup = state.vehicles.find(v => fold(v.bienSo) === fold(data.bienSo) && (!state.editing || v.row !== state.editing.row));
-  if (dup) return fieldError('f-bienSo', `Biển số ${data.bienSo} đã có ở dòng ${dup.row}.`);
+  if (dup) return fieldError('f-bienSo', `Biển số ${data.bienSo} đã có trong danh sách.`);
 
   const buttons = [$('#saveBtn'), $('#saveNextBtn')];
   buttons.forEach(b => { b.disabled = true; });
@@ -686,14 +726,15 @@ $('#vehicleForm').addEventListener('submit', async e => {
 
     if (goNext) {
       const list = missingList().filter(x => !state.missHang || x.v.hang === state.missHang);
-      const next = list.find(x => x.v.row > editing.row && x.v.row !== editing.row) || list.find(x => x.v.row !== editing.row);
+      const next = list.find(x => x.v.row > editing.row) || list.find(x => x.v.row !== editing.row);
       if (next) { startEdit(next.v, true); return; }
       toast('Đã bổ sung xong, không còn xe nào thiếu thông tin.');
     }
     resetForm();
     if (fromMissing) { show('missing'); return; }
-    $('#q').value = data.bienSo; state.hang = ''; renderChips(); renderList();
-    show('search');
+    show('home');
+    $('#q').value = data.bienSo; state.q = data.bienSo; state.hang = ''; renderChips(); renderList();
+    $('#sec-list').scrollIntoView({ block: 'start' });
   } catch (err) {
     toast(err.message, true);
   } finally {
