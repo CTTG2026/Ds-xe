@@ -78,29 +78,30 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .sum span{color:var(--muted);font-weight:500}
 .sum.total{background:#1B2430;color:#fff;border-color:#1B2430}
 .sum.total span{color:var(--yellow)}
-.sum.moto b{font-size:1.5rem}
+.sum.h{border-top:5px solid var(--hc)}
+.sum.h b{color:var(--hc)}
+.hb{display:inline-block;background:var(--hc);color:#fff;border-radius:6px;padding:1px 8px;font-weight:700;font-size:.88rem;white-space:nowrap}
 .sum[aria-pressed="true"]{outline:3px solid var(--yellow-deep);outline-offset:-3px}
 
 /* ---------- mức cảnh báo ---------- */
 .st{font-weight:600;white-space:nowrap}
-.st.exp,.st.t7{color:var(--red)} .st.t15{color:var(--orange)} .st.t30{color:var(--amber)} .st.t45{color:var(--olive)} .st.ok{color:var(--green)}
-.tiers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.st.exp,.st.t10{color:var(--red)} .st.t20{color:var(--orange)} .st.t30{color:var(--amber)} .st.ok{color:var(--green)}
+.tiers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
 @media (max-width:760px){.tiers{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tier{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--line);border-radius:var(--radius);
   padding:10px 14px;text-align:left;cursor:pointer}
 .tier b{display:block;font-size:1.6rem;line-height:1.1}
 .tier span{font-size:.9rem;color:var(--muted)}
-.tier.exp,.tier.t7{border-top-color:var(--red)} .tier.t15{border-top-color:var(--orange)}
-.tier.t30{border-top-color:var(--amber)} .tier.t45{border-top-color:var(--yellow)}
+.tier.exp{border-top-color:var(--red)} .tier.t10{border-top-color:#E4572E} .tier.t20{border-top-color:var(--orange)} .tier.t30{border-top-color:var(--yellow)}
 .tier[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-2px}
 .card{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center;
   background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--yellow);
   border-radius:var(--radius);padding:12px 16px;margin-bottom:10px;cursor:pointer}
-.card.exp,.card.t7{border-left-color:var(--red)} .card.t15{border-left-color:var(--orange)} .card.t30{border-left-color:var(--amber)}
+.card.exp,.card.t10{border-left-color:var(--red)} .card.t20{border-left-color:var(--orange)} .card.t30{border-left-color:var(--yellow)}
 .card .who{color:var(--muted)}
 .card .tags{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
 .doc{display:inline-flex;gap:8px;align-items:baseline;border-radius:6px;padding:3px 10px;font-size:.92rem;background:var(--soon-bg)}
-.doc.exp,.doc.t7{background:var(--exp-bg)}
+.doc.exp,.doc.t10{background:var(--exp-bg)}
 .doc b{font-weight:600}
 .empty{padding:26px 16px;text-align:center;color:var(--muted)}
 .boxed{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
@@ -109,13 +110,13 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .result{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--soon-bg);border:1px solid var(--yellow-deep);
   border-radius:var(--radius);padding:10px 14px;margin-bottom:14px}
 .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.vrow{display:grid;grid-template-columns:155px 48px minmax(0,1fr) 162px 124px 172px 108px 36px;gap:10px;align-items:center;
-  padding:10px 14px;border-top:1px solid var(--line);cursor:pointer}
+.vrow{display:grid;grid-template-columns:140px 54px minmax(110px,1fr) 170px 128px 146px 166px 38px;gap:10px;align-items:center;
+  padding:10px 14px 10px 16px;border-top:1px solid var(--line);cursor:pointer;box-shadow:inset 5px 0 0 var(--hc,transparent)}
 .vrow:first-child{border-top:0}
 .vrow:hover{background:var(--paper)}
 .vrow.head{cursor:default;font-size:.82rem;color:var(--muted);font-weight:600;background:var(--paper)}
-.vrow.moto-first{border-top:3px solid var(--line)}
 .vrow .lbl{display:none}
+.vrow .st{font-size:.86rem}
 .car{min-width:0}
 .car small{display:block;color:var(--muted);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hang{font-weight:700}
@@ -134,10 +135,18 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .cp.plate-cp{margin:0;padding:0;min-height:0;border:0}
 .cp.plate-cp:hover{background:transparent}
 .cp.plate-cp.done .plate{background:#D9F2E3}
-.line-cp{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--paper);cursor:copy}
-.line-cp:hover{border-color:var(--ink)}
-.line-cp.done{background:var(--green);border-color:var(--green);color:#fff}
-.line-cp svg{width:17px;height:17px}
+.edit-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--paper);cursor:pointer}
+.edit-btn:hover{border-color:var(--ink);background:var(--yellow);color:#1B2430}
+.edit-btn svg{width:17px;height:17px}
+.act-list{display:grid;gap:10px;padding:18px 22px 22px}
+.act{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--paper);
+  font-weight:600;cursor:pointer;text-align:left}
+.act svg{width:20px;height:20px;flex:none}
+.act:hover{border-color:var(--ink)}
+.act.danger{color:var(--red)}
+.act.danger:hover{border-color:var(--red)}
+.act small{display:block;font-weight:400;color:var(--muted);font-size:.85rem}
+.btn.danger{background:var(--red);color:#fff}
 
 @media (max-width:860px){
   .list{background:transparent;border:0;border-radius:0;overflow:visible}
@@ -145,18 +154,17 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
   .vrow{grid-template-columns:auto 1fr auto;gap:4px 10px;padding:14px;margin-bottom:10px;
     background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
   .vrow:first-child{border-top:1px solid var(--line)}
-  .vrow.moto-first{border-top:1px solid var(--line);margin-top:22px}
+  .vrow{box-shadow:inset 6px 0 0 var(--hc,transparent);padding-left:18px}
   .vrow > .p{grid-column:1;grid-row:1}
-  .vrow > .hang{grid-column:2;grid-row:1;justify-self:start;background:var(--chip);border-radius:6px;padding:1px 9px;font-size:.9rem}
-  .vrow > .line-cp{grid-column:3;grid-row:1}
+  .vrow > .hang{grid-column:2;grid-row:1;justify-self:start}
+  .vrow > .edit-btn{grid-column:3;grid-row:1}
   .vrow > .car{grid-column:1/-1;margin-bottom:6px}
-  .vrow > .kv-m{grid-column:1/-1;display:grid;grid-template-columns:96px minmax(0,1fr);align-items:center;gap:8px;
+  .vrow > .kv-m{grid-column:1/-1;display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;gap:8px;
     border-top:1px dashed var(--line);padding-top:6px}
   .vrow .lbl{display:block;color:var(--muted);font-size:.85rem}
   .cp{margin:0;width:100%;justify-content:space-between;background:var(--chip);border-color:var(--line);min-height:40px;padding:6px 10px}
   .cp .v{font-size:1rem}
   .cp .ic{opacity:.7}
-  .vrow > .kv-m.blank{display:none}
 }
 
 /* ---------- nút ---------- */
@@ -216,8 +224,10 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);fon
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
-  <symbol id="i-rows" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></symbol>
 </svg>
 
 <header class="mast">
@@ -243,7 +253,7 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);fon
     </section>
 
     <section class="section">
-      <div class="sec-head"><h2>Xe sắp hết hạn</h2><span class="muted">Kiểm định, GPXTL, hợp đồng thuê xe</span></div>
+      <div class="sec-head"><h2>Xe sắp hết hạn</h2><span class="muted">Kiểm định, GPXTL, hợp đồng thuê xe (không tính hạng A, A1)</span></div>
       <div class="tiers" id="tiers"></div>
       <div id="alertList"></div>
     </section>
@@ -252,7 +262,7 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);fon
       <div class="sec-head"><h2 id="listTitle">Danh sách xe tập lái</h2><span class="muted" id="resultCount"></span></div>
       <div class="result" id="resultBar" hidden></div>
       <div class="list" id="vehicleList"></div>
-      <p class="muted" style="margin-top:10px;font-size:.9rem">Bấm vào số GPXTL, ngày cấp, IMEI hoặc biển số để chép. Nút <svg style="width:14px;height:14px;vertical-align:-2px"><use href="#i-rows"/></svg> chép cả dãy của xe đó (dán vào Excel/Sheets sẽ tự chia cột).</p>
+      <p class="muted" style="margin-top:10px;font-size:.9rem">Bấm vào biển số, số GPXTL, ngày cấp hoặc IMEI để chép. Bấm cây bút <svg style="width:14px;height:14px;vertical-align:-2px"><use href="#i-pen"/></svg> để chỉnh sửa hoặc xoá xe khỏi web. Xe hạng A, A1 không hiển thị.</p>
     </section>
   </div>
 
@@ -273,6 +283,7 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);fon
 <footer class="admin-only">Đang dùng quyền quản trị trên máy này. <button class="linklike" id="logoutBtn">Thoát quyền quản trị</button></footer>
 
 <dialog id="detail"></dialog>
+<dialog id="actDlg"></dialog>
 <dialog id="loginDlg">
   <form class="login" id="loginForm">
     <h2>Nhập mật khẩu quản trị</h2>
@@ -292,20 +303,25 @@ footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);fon
 const API_URL = 'https://script.google.com/macros/s/AKfycbyNrrSOQZFhAcHgB4wCdfgp-q2IVfp_E8BdwIpuE1RMq-rwdpf7gTvRUXY3Fbqb2Sig/exec';
 const ADMIN_STORE = 'cttg_xe_admin';
 
+/* Mốc cảnh báo – mỗi ô là một khoảng riêng, không đếm trùng */
 const TIERS = [
-  { cls: 't7',  max: 7,  label: 'Còn 7 ngày trở xuống' },
-  { cls: 't15', max: 15, label: 'Còn 8 đến 15 ngày' },
-  { cls: 't30', max: 30, label: 'Còn 16 đến 30 ngày' },
-  { cls: 't45', max: 45, label: 'Còn 31 đến 45 ngày' },
+  { cls: 't10', max: 10, label: 'Còn 10 ngày' },
+  { cls: 't20', max: 20, label: 'Còn 11 - 20 ngày' },
+  { cls: 't30', max: 30, label: 'Còn 21 - 30 ngày' },
 ];
+const MAX_DAYS = 30;
+
+/* Màu từng hạng – thêm/sửa tuỳ ý; hạng chưa có trong danh sách sẽ lấy màu dự phòng */
+const HANG_COLORS = { 'B.01': '#2563EB', 'B': '#16A34A', 'C1': '#EA580C', 'C': '#9333EA', 'D2': '#DB2777',
+                      'D': '#0891B2', 'D1': '#0D9488', 'E': '#B45309' };
+const SPARE_COLORS = ['#4F46E5', '#65A30D', '#DC2626', '#0284C7', '#A21CAF', '#CA8A04'];
 const EXPIRY = [
   { key: 'hetHanKiemDinh', label: 'Kiểm định' },
   { key: 'hetHanGPXTL', label: 'GPXTL' },
   { key: 'hetHanHD', label: 'HĐ thuê xe' },
 ];
 const SEARCH_KEYS = ['bienSo', 'imeiDAT', 'soHuu'];      // tra cứu theo các trường này
-const MOTO_HANG = ['A', 'A1'];                          // xếp cuối danh sách, không kiểm tra thiếu thông tin
-const COPY_LINE = ['bienSo', 'soGPXTL', 'ngayCapGPXTL', 'imeiDAT'];   // thứ tự khi "chép cả dãy"
+const MOTO_HANG = ['A', 'A1'];                          // ẩn hoàn toàn khỏi web
 
 const REQUIRED = {
   tatCa: ['loaiXe', 'hangXe', 'nhanHieu', 'namSX', 'mauSon', 'soCavet', 'soMay', 'soKhung', 'soHuu',
@@ -362,13 +378,18 @@ const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '
 const carName = v => [v.hangXe, v.nhanHieu].filter(Boolean).join(' ') || 'Chưa rõ loại xe';
 const isMoto = v => MOTO_HANG.some(h => fold(h) === fold(v.hang));
 
-/* ---------- thứ tự hạng: theo bảng, riêng A, A1 xuống cuối ---------- */
+/* ---------- thứ tự hạng theo bảng; màu theo hạng ---------- */
 function hangOrder() {
   const seen = [];
   state.vehicles.forEach(v => { if (v.hang && !seen.includes(v.hang)) seen.push(v.hang); });
-  const moto = MOTO_HANG.filter(h => seen.includes(h));
-  return [...seen.filter(h => !moto.includes(h)), ...moto];
+  return seen;
 }
+function hangColor(h) {
+  if (HANG_COLORS[h]) return HANG_COLORS[h];
+  const extra = hangOrder().filter(x => !HANG_COLORS[x]);
+  return SPARE_COLORS[Math.max(0, extra.indexOf(h)) % SPARE_COLORS.length];
+}
+const hb = h => `<span class="hb" style="--hc:${hangColor(h)}">${esc(h)}</span>`;
 function sortedVehicles() {
   const order = hangOrder();
   const rank = h => { const i = order.indexOf(h); return i === -1 ? 999 : i; };
@@ -395,12 +416,11 @@ function status(s) {
   const t = TIERS.find(t => left <= t.max);
   return { cls: t ? t.cls : 'ok', left, text: `Còn ${left} ngày` };
 }
-const RANK = { exp: 0, t7: 1, t15: 2, t30: 3, t45: 4 };
+const RANK = { exp: 0, t10: 1, t20: 2, t30: 3 };
 
 /* ---------- thiếu thông tin ---------- */
 const isThue = v => v.soHuu && fold(v.soHuu) !== 'trungtam';
 function missingFields(v) {
-  if (isMoto(v)) return [];
   const keys = [...REQUIRED.tatCa];
   if (isThue(v)) keys.push(...REQUIRED.xeThue);
   return keys.filter(k => !String(v[k] ?? '').trim());
@@ -429,11 +449,11 @@ document.addEventListener('click', async e => {
     if (await copyText(c.dataset.copy)) { flash(c); toast('Đã chép: ' + c.dataset.copy); }
     return;
   }
-  const line = e.target.closest('[data-copy-line]');
-  if (line) {
-    const v = findRow(line.dataset.copyLine); if (!v) return;
-    const text = COPY_LINE.map(k => v[k] || '').join('\t');
-    if (await copyText(text)) { flash(line); toast('Đã chép cả dãy: ' + COPY_LINE.map(k => v[k] || '—').join('  ')); }
+  const pen = e.target.closest('[data-actions]');
+  if (pen) {
+    e.stopPropagation();
+    const v = findRow(pen.dataset.actions); if (!v) return;
+    requireAdmin(() => openActions(v), `Nhập mật khẩu quản trị để chỉnh sửa hoặc xoá xe ${v.bienSo}.`);
     return;
   }
   const el = e.target.closest('.card[data-row], .vrow[data-row]');
@@ -463,7 +483,7 @@ async function load(keepView) {
   $('#loading').hidden = false;
   try {
     const data = await api();
-    state.vehicles = data.vehicles;
+    state.vehicles = data.vehicles.filter(v => !isMoto(v));   // ẩn xe hạng A, A1
     buildDatalists();
     renderAll();
     if (!keepView) show(state.view);
@@ -544,7 +564,7 @@ function renderSummary() {
   const count = h => state.vehicles.filter(v => v.hang === h).length;
   $('#summary').innerHTML =
     `<button class="sum total" data-hang="" aria-pressed="${!state.hang}"><b>${state.vehicles.length}</b><span>Tổng xe</span></button>` +
-    order.map(h => `<button class="sum ${MOTO_HANG.includes(h) ? 'moto' : ''}" data-hang="${esc(h)}" aria-pressed="${state.hang === h}"><b>${count(h)}</b><span>Hạng ${esc(h)}</span></button>`).join('');
+    order.map(h => `<button class="sum h" style="--hc:${hangColor(h)}" data-hang="${esc(h)}" aria-pressed="${state.hang === h}"><b>${count(h)}</b><span>Hạng ${esc(h)}</span></button>`).join('');
 }
 $('#summary').addEventListener('click', e => {
   const b = e.target.closest('.sum'); if (!b) return;
@@ -563,26 +583,27 @@ function renderAlerts() {
     }
   });
   groups.sort((a, b) => a.min - b.min);
-  const docsAll = groups.flatMap(g => g.docs);
-  const counts = cls => docsAll.filter(d => d.st.cls === cls).length;
+  // mỗi giấy tờ chỉ thuộc đúng một ô: quá hạn / 0–10 / 11–20 / 21–30 ngày
+  const inTier = (d, cls) => d.st.cls === cls;
+  const counts = cls => groups.filter(g => g.docs.some(d => inTier(d, cls))).length;
   $('#tiers').innerHTML = [{ cls: 'exp', label: 'Đã quá hạn' }, ...TIERS]
     .map(t => `<button class="tier ${t.cls}" data-tier="${t.cls}" aria-pressed="${state.tier === t.cls}"><b>${counts(t.cls)}</b><span>${t.label}</span></button>`).join('');
 
-  const shown = state.tier ? groups.filter(g => g.docs.some(d => d.st.cls === state.tier)) : groups;
+  const shown = state.tier ? groups.filter(g => g.docs.some(d => inTier(d, state.tier))) : groups;
   if (!shown.length) {
     let next = null;
     state.vehicles.forEach(v => EXPIRY.forEach(f => {
       const l = daysLeft(v[f.key]);
       if (l !== null && l >= 0 && (!next || l < next.l)) next = { v, f, l };
     }));
-    $('#alertList').innerHTML = `<div class="boxed empty">${state.tier ? 'Không có giấy tờ nào ở mốc này.' : 'Không có xe nào hết hạn trong 45 ngày tới.'}${
+    $('#alertList').innerHTML = `<div class="boxed empty">${state.tier ? 'Không có giấy tờ nào ở mốc này.' : `Không có xe nào hết hạn trong ${MAX_DAYS} ngày tới.`}${
       next && !state.tier ? `<br>Gần nhất: <span class="plate">${esc(next.v.bienSo)}</span>, ${next.f.label} hết hạn ${esc(next.v[next.f.key])} (còn ${next.l} ngày).` : ''}</div>`;
     return;
   }
   $('#alertList').innerHTML = shown.map(g => `
     <div class="card ${g.worst}" data-row="${g.v.row}" tabindex="0">
       <span class="plate">${esc(g.v.bienSo)}</span>
-      <span class="who">Hạng ${esc(g.v.hang)}, ${esc(carName(g.v))}${g.v.soHuu ? ', ' + esc(g.v.soHuu) : ''}</span>
+      <span class="who">${hb(g.v.hang)} ${esc(carName(g.v))}${g.v.soHuu ? ', ' + esc(g.v.soHuu) : ''}</span>
       <span class="tags">${g.docs.map(d => `<span class="doc ${d.st.cls}"><b>${d.label}</b> ${esc(d.date)} <span class="st ${d.st.cls}">${d.st.text}</span></span>`).join('')}</span>
     </div>`).join('');
 }
@@ -613,31 +634,26 @@ function renderList() {
     $('#vehicleList').innerHTML = `<div class="boxed empty">Không tìm thấy xe nào. Kiểm tra lại biển số, IMEI hoặc tên chủ xe; có thể chỉ nhập một phần, ví dụ “20317”.</div>`;
     return;
   }
-  const exp = v => {
-    if (!v.hetHanKiemDinh) return '<span class="dash">—</span>';
-    const s = status(v.hetHanKiemDinh);
-    return `${esc(v.hetHanKiemDinh)}${s.cls !== 'ok' ? `<br><span class="st ${s.cls}">${s.text}</span>` : ''}`;
+  const expGP = v => {
+    if (!v.hetHanGPXTL) return '<span class="dash">—</span>';
+    const s = status(v.hetHanGPXTL);
+    return `${esc(v.hetHanGPXTL)}${s.cls !== 'ok' ? `<br><span class="st ${s.cls}">${s.text}</span>` : ''}`;
   };
-  // trên điện thoại: ẩn các dòng trống của xe mô tô cho gọn
-  const blank = (v, k) => isMoto(v) && !v[k] ? 'blank' : '';
-  let motoMarked = false;
   $('#vehicleList').innerHTML = `
-    <div class="vrow head"><span>Biển số</span><span>Hạng</span><span>Xe, chủ sở hữu</span><span>Số GPXTL</span><span>Ngày cấp</span><span>IMEI DAT</span><span>Hết hạn KĐ</span><span></span></div>` +
+    <div class="vrow head"><span>Biển số</span><span>Hạng</span><span>Xe, chủ sở hữu</span><span>Số GPXTL</span><span>Ngày cấp</span><span>Hết hạn GPXTL</span><span>IMEI DAT</span><span></span></div>` +
     rows.map(v => {
       const m = missingFields(v).length;
-      const firstMoto = !motoMarked && isMoto(v) && rows.some(x => !isMoto(x));
-      if (firstMoto) motoMarked = true;
       return `
-    <div class="vrow ${firstMoto ? 'moto-first' : ''}" data-row="${v.row}" tabindex="0">
+    <div class="vrow" style="--hc:${hangColor(v.hang)}" data-row="${v.row}" tabindex="0">
       <span class="p">${plateCp(v)}</span>
-      <span class="hang">${esc(v.hang)}</span>
-      <span class="car">${esc(carName(v))}${v.namSX && v.namSX.length === 4 ? ` <span class="muted">${esc(v.namSX)}</span>` : ''}${m ? `<span class="miss-n">Thiếu ${m}</span>` : ''}
+      <span class="hang">${hb(v.hang)}</span>
+      <span class="car">${esc(carName(v))}${m ? `<span class="miss-n">Thiếu ${m}</span>` : ''}
         <small>${esc(v.soHuu) || '&nbsp;'}</small></span>
-      <span class="kv-m ${blank(v, 'soGPXTL')}"><span class="lbl">Số GPXTL</span>${cp(v.soGPXTL)}</span>
-      <span class="kv-m ${blank(v, 'ngayCapGPXTL')}"><span class="lbl">Ngày cấp</span>${cp(v.ngayCapGPXTL)}</span>
-      <span class="kv-m ${blank(v, 'imeiDAT')}"><span class="lbl">IMEI DAT</span>${cp(v.imeiDAT)}</span>
-      <span class="kv-m ${blank(v, 'hetHanKiemDinh')}"><span class="lbl">Hết hạn KĐ</span><span>${exp(v)}</span></span>
-      ${isMoto(v) && !v.soGPXTL && !v.imeiDAT ? '<span></span>' : `<button type="button" class="line-cp" data-copy-line="${v.row}" title="Chép cả dãy: biển số, số GPXTL, ngày cấp, IMEI" aria-label="Chép cả dãy"><svg><use href="#i-rows"/></svg></button>`}
+      <span class="kv-m"><span class="lbl">Số GPXTL</span>${cp(v.soGPXTL)}</span>
+      <span class="kv-m"><span class="lbl">Ngày cấp</span>${cp(v.ngayCapGPXTL)}</span>
+      <span class="kv-m"><span class="lbl">Hết hạn GPXTL</span><span>${expGP(v)}</span></span>
+      <span class="kv-m"><span class="lbl">IMEI DAT</span>${cp(v.imeiDAT)}</span>
+      <button type="button" class="edit-btn" data-actions="${v.row}" title="Chỉnh sửa hoặc xoá" aria-label="Chỉnh sửa hoặc xoá xe ${esc(v.bienSo)}"><svg><use href="#i-pen"/></svg></button>
     </div>`;
     }).join('');
 }
@@ -657,7 +673,7 @@ function openDetail(row) {
   const dlg = $('#detail');
   dlg.innerHTML = `
     <div class="dlg-head">${plateCp(v).replace('class="plate"', 'class="plate big"')}
-      <div><b>${esc(carName(v))}</b><br><span class="muted">Hạng ${esc(v.hang)}${miss.length ? `. Còn thiếu ${miss.length} mục` : ''}</span></div></div>
+      <div><b>${esc(carName(v))}</b><br>${hb(v.hang)} <span class="muted">${miss.length ? `. Còn thiếu ${miss.length} mục` : ''}</span></div></div>
     <div class="dlg-body">${GROUPS.map(g => `
       <h3>${g.title}</h3>
       <dl class="kv">${g.fields.filter(f => f[0] !== 'bienSo').map(([k, label]) => `<dt>${label}</dt>${val(k)}`).join('')}</dl>`).join('')}
@@ -671,6 +687,49 @@ function openDetail(row) {
   dlg.showModal();
 }
 $('#detail').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
+/* ---------- cây bút: chỉnh sửa hoặc xoá ---------- */
+function openActions(v) {
+  const dlg = $('#actDlg');
+  const renderMenu = () => {
+    dlg.innerHTML = `
+      <div class="dlg-head"><span class="plate">${esc(v.bienSo)}</span><span>${hb(v.hang)} ${esc(carName(v))}</span></div>
+      <div class="act-list">
+        <button class="act" data-a="edit"><svg><use href="#i-pen"/></svg><span>Chỉnh sửa thông tin<small>Mở form, sửa xong bấm Lưu</small></span></button>
+        <button class="act danger" data-a="del"><svg><use href="#i-trash"/></svg><span>Xoá khỏi web<small>Dữ liệu trong Google Sheets vẫn được giữ lại</small></span></button>
+        <button class="btn ghost" data-a="close">Đóng</button>
+      </div>`;
+  };
+  const renderConfirm = () => {
+    dlg.innerHTML = `
+      <div class="dlg-head"><h2 style="font-size:1.2rem">Xoá xe <span class="plate">${esc(v.bienSo)}</span> khỏi web?</h2></div>
+      <div class="dlg-body"><p>Xe sẽ không còn hiển thị trên web. Dòng dữ liệu trong Google Sheets <b>vẫn giữ nguyên</b>, chỉ được đánh dấu “x” ở cột <b>Ẩn trên web</b>. Muốn hiện lại, xoá chữ “x” đó trong Google Sheets.</p></div>
+      <div class="dlg-foot"><button class="btn ghost" data-a="back">Quay lại</button><button class="btn danger" data-a="confirm">Xoá khỏi web</button></div>`;
+  };
+  dlg.onclick = async e => {
+    if (e.target === dlg) { dlg.close(); return; }
+    const a = e.target.closest('[data-a]'); if (!a) return;
+    const act = a.dataset.a;
+    if (act === 'close') dlg.close();
+    else if (act === 'edit') { dlg.close(); startEdit(v); }
+    else if (act === 'del') renderConfirm();
+    else if (act === 'back') renderMenu();
+    else if (act === 'confirm') {
+      a.disabled = true; a.textContent = 'Đang xoá…';
+      try {
+        await api({ action: 'hide', row: v.row, bienSo: v.bienSo });
+        dlg.close();
+        toast(`Đã xoá xe ${v.bienSo} khỏi web.`);
+        await load(true);
+      } catch (err) {
+        toast(err.message, true);
+        a.disabled = false; a.textContent = 'Xoá khỏi web';
+      }
+    }
+  };
+  renderMenu();
+  dlg.showModal();
+}
 
 /* ---------- form ---------- */
 function buildForm() {
@@ -737,7 +796,7 @@ function startEdit(v) {
   });
   const miss = markMissing();
   $('#formTitle').textContent = (miss.length ? 'Bổ sung thông tin xe ' : 'Chỉnh sửa xe ') + v.bienSo;
-  $('#saveBtn').textContent = 'Lưu thay đổi';
+  $('#saveBtn').textContent = 'Lưu';
   show('form');
   const first = document.querySelector('.field.missing input, .field.missing select, .field.missing textarea');
   if (first) { first.scrollIntoView({ block: 'center' }); first.focus({ preventScroll: true }); }
