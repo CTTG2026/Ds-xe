@@ -85,7 +85,8 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .sum.total span{color:var(--yellow)}
 .sum.h{border-top:5px solid var(--hc)}
 .sum.h b{color:var(--hc)}
-.hb{display:inline-block;background:var(--hc);color:#fff;border-radius:6px;padding:1px 8px;font-weight:700;font-size:.88rem;white-space:nowrap}
+.hb{display:inline-block;background:var(--hc);color:#fff;border-radius:6px;padding:2px 8px;font-weight:700;font-size:.88rem;
+  line-height:1.25;white-space:normal;text-align:center;max-width:100%;overflow-wrap:anywhere}
 .sum[aria-pressed="true"]{outline:3px solid var(--yellow-deep);outline-offset:-3px}
 
 /* ---------- mức cảnh báo ---------- */
@@ -115,7 +116,7 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .result{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--soon-bg);border:1px solid var(--yellow-deep);
   border-radius:var(--radius);padding:10px 14px;margin-bottom:14px}
 .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-.vrow{display:grid;grid-template-columns:140px 54px minmax(110px,1fr) 170px 128px 146px 166px 38px;gap:10px;align-items:center;
+.vrow{display:grid;grid-template-columns:140px 72px minmax(110px,1fr) 170px 128px 146px 166px 38px;gap:10px;align-items:center;
   padding:10px 14px 10px 16px;border-top:1px solid var(--line);cursor:pointer;box-shadow:inset 5px 0 0 var(--hc,transparent)}
 .vrow:first-child{border-top:0}
 .vrow:hover{background:var(--paper)}
@@ -141,7 +142,7 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .cp.plate-cp:hover{background:transparent}
 .cp.plate-cp.done .plate{background:#D9F2E3}
 .edit-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--paper);cursor:pointer}
-.edit-btn:hover{border-color:var(--ink);background:var(--yellow);color:#1B2430}
+.edit-btn:hover{border-color:var(--red);background:var(--exp-bg);color:var(--red)}
 .edit-btn svg{width:17px;height:17px}
 .act-list{display:grid;gap:10px;padding:18px 22px 22px}
 .act{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--paper);
@@ -362,7 +363,7 @@ const GROUPS = [
     ['seriDAT', 'Seri DAT', { copy: 1 }],
     ['imeiDAT', 'IMEI DAT', { mode: 'numeric', copy: 1 }],
   ]},
-  { title: 'Sở hữu và hợp đồng thuê', fields: [
+  { title: 'Chủ sở hữu', fields: [
     ['soHuu', 'Chủ sở hữu', { list: 1 }],
     ['ngayKyHD', 'Ngày kí hợp đồng thuê', { type: 'date' }],
     ['hetHanHD', 'Ngày hết hạn hợp đồng thuê', { type: 'date' }],
@@ -424,7 +425,12 @@ function status(s) {
 const RANK = { exp: 0, t10: 1, t20: 2, t30: 3 };
 
 /* ---------- thiếu thông tin ---------- */
-const isThue = v => v.soHuu && fold(v.soHuu) !== 'trungtam';
+const isThue = v => !!v.soHuu && fold(v.soHuu) !== 'trungtam';
+const HD_KEYS = ['ngayKyHD', 'hetHanHD'];   // chỉ dùng cho xe thuê (chủ sở hữu không phải Trung tâm)
+function toggleHD() {
+  const show = isThue({ soHuu: $('#f-soHuu').value });
+  HD_KEYS.forEach(k => { document.querySelector(`.field[data-field="${k}"]`).hidden = !show; });
+}
 function missingFields(v) {
   const keys = [...REQUIRED.tatCa];
   if (isThue(v)) keys.push(...REQUIRED.xeThue);
@@ -458,7 +464,7 @@ document.addEventListener('click', async e => {
   if (pen) {
     e.stopPropagation();
     const v = findRow(pen.dataset.actions); if (!v) return;
-    requireAdmin(() => openActions(v), `Nhập mật khẩu quản trị để chỉnh sửa hoặc xoá xe ${v.bienSo}.`);
+    requireAdmin(() => confirmDelete(v), `Nhập mật khẩu quản trị để xoá xe ${v.bienSo}.`);
     return;
   }
   const el = e.target.closest('.card[data-row], .vrow[data-row]');
@@ -582,7 +588,8 @@ $('#summary').addEventListener('click', e => {
 function renderAlerts() {
   const groups = [];
   state.vehicles.forEach(v => {
-    const docs = EXPIRY.map(f => ({ ...f, date: v[f.key], st: status(v[f.key]) })).filter(d => d.st.cls in RANK);
+    const docs = EXPIRY.filter(f => f.key !== 'hetHanHD' || isThue(v))
+      .map(f => ({ ...f, date: v[f.key], st: status(v[f.key]) })).filter(d => d.st.cls in RANK);
     if (docs.length) {
       docs.sort((a, b) => a.st.left - b.st.left);
       groups.push({ v, docs, worst: docs[0].st.cls, min: docs[0].st.left });
@@ -659,7 +666,7 @@ function renderList() {
       <span class="kv-m"><span class="lbl">Ngày cấp</span>${cp(v.ngayCapGPXTL)}</span>
       <span class="kv-m"><span class="lbl">Hết hạn GPXTL</span><span>${expGP(v)}</span></span>
       <span class="kv-m"><span class="lbl">IMEI DAT</span>${cp(v.imeiDAT)}</span>
-      <button type="button" class="edit-btn" data-actions="${v.row}" title="Chỉnh sửa hoặc xoá" aria-label="Chỉnh sửa hoặc xoá xe ${esc(v.bienSo)}"><svg><use href="#i-pen"/></svg></button>
+      <button type="button" class="edit-btn" data-actions="${v.row}" title="Xoá xe khỏi web" aria-label="Xoá xe ${esc(v.bienSo)}"><svg><use href="#i-trash"/></svg></button>
     </div>`;
     }).join('');
 }
@@ -682,7 +689,7 @@ function openDetail(row) {
       <div><b>${esc(carName(v))}</b><br>${hb(v.hang)} <span class="muted">${miss.length ? `. Còn thiếu ${miss.length} mục` : ''}</span></div></div>
     <div class="dlg-body">${GROUPS.map(g => `
       <h3>${g.title}</h3>
-      <dl class="kv">${g.fields.filter(f => f[0] !== 'bienSo').map(([k, label]) => `<dt>${label}</dt>${val(k)}`).join('')}</dl>`).join('')}
+      <dl class="kv">${g.fields.filter(f => f[0] !== 'bienSo' && (!HD_KEYS.includes(f[0]) || isThue(v))).map(([k, label]) => `<dt>${label}</dt>${val(k)}`).join('')}</dl>`).join('')}
     </div>
     <div class="dlg-foot">
       <button class="btn ghost" data-close>Đóng</button>
@@ -694,45 +701,27 @@ function openDetail(row) {
 }
 $('#detail').addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
 
-/* ---------- cây bút: chỉnh sửa hoặc xoá ---------- */
-function openActions(v) {
+/* ---------- nút xoá: hỏi lại trước khi xoá (chỉ ẩn khỏi web) ---------- */
+function confirmDelete(v) {
   const dlg = $('#actDlg');
-  const renderMenu = () => {
-    dlg.innerHTML = `
-      <div class="dlg-head"><span class="plate">${esc(v.bienSo)}</span><span>${hb(v.hang)} ${esc(carName(v))}</span></div>
-      <div class="act-list">
-        <button class="act" data-a="edit"><svg><use href="#i-pen"/></svg><span>Chỉnh sửa thông tin</span></button>
-        <button class="act danger" data-a="del"><svg><use href="#i-trash"/></svg><span>Xoá khỏi web</span></button>
-        <button class="btn ghost" data-a="close">Đóng</button>
-      </div>`;
-  };
-  const renderConfirm = () => {
-    dlg.innerHTML = `
-      <div class="dlg-head"><h2 style="font-size:1.2rem">Xoá xe <span class="plate">${esc(v.bienSo)}</span> khỏi web?</h2></div>
-      <div class="dlg-foot"><button class="btn ghost" data-a="back">Quay lại</button><button class="btn danger" data-a="confirm">Xoá khỏi web</button></div>`;
-  };
+  dlg.innerHTML = `
+    <div class="dlg-head"><h2 style="font-size:1.2rem">Bạn có chắc muốn xoá xe <span class="plate">${esc(v.bienSo)}</span>?</h2></div>
+    <div class="dlg-foot"><button class="btn ghost" data-a="close">Không</button><button class="btn danger" data-a="confirm">Xoá</button></div>`;
   dlg.onclick = async e => {
     if (e.target === dlg) { dlg.close(); return; }
     const a = e.target.closest('[data-a]'); if (!a) return;
-    const act = a.dataset.a;
-    if (act === 'close') dlg.close();
-    else if (act === 'edit') { dlg.close(); startEdit(v); }
-    else if (act === 'del') renderConfirm();
-    else if (act === 'back') renderMenu();
-    else if (act === 'confirm') {
-      a.disabled = true; a.textContent = 'Đang xoá…';
-      try {
-        await api({ action: 'hide', row: v.row, bienSo: v.bienSo });
-        dlg.close();
-        toast(`Đã xoá xe ${v.bienSo} khỏi web.`);
-        await load(true);
-      } catch (err) {
-        toast(err.message, true);
-        a.disabled = false; a.textContent = 'Xoá khỏi web';
-      }
+    if (a.dataset.a === 'close') { dlg.close(); return; }
+    a.disabled = true; a.textContent = 'Đang xoá…';
+    try {
+      await api({ action: 'hide', row: v.row, bienSo: v.bienSo });
+      dlg.close();
+      toast(`Đã xoá xe ${v.bienSo}.`);
+      await load(true);
+    } catch (err) {
+      toast(err.message, true);
+      a.disabled = false; a.textContent = 'Xoá';
     }
   };
-  renderMenu();
   dlg.showModal();
 }
 
@@ -752,6 +741,8 @@ function buildForm() {
     }).join('')}</div></fieldset>`).join('');
 
   $('#f-bienSo').addEventListener('blur', e => { e.target.value = e.target.value.trim().toUpperCase(); });
+  $('#f-soHuu').addEventListener('input', toggleHD);
+  $('#f-soHuu').addEventListener('change', toggleHD);
   $('#f-hetHanKiemDinh').addEventListener('change', e => { if (!$('#f-hetHanGPXTL').value) $('#f-hetHanGPXTL').value = e.target.value; });
   ['input', 'change'].forEach(ev => $('#vehicleForm').addEventListener(ev, () => { if (state.editing) markMissing(); }));
   resetForm();
@@ -786,6 +777,7 @@ function resetForm() {
   $('#vehicleForm').reset();
   $('#f-soHuu').value = 'Trung tâm';
   $('#f-daNhapSo').value = 'Chưa nhập';
+  toggleHD();
   document.querySelectorAll('.field.missing').forEach(f => f.classList.remove('missing'));
   $('#missNote').hidden = true;
   $('#formTitle').textContent = 'Thêm xe mới';
@@ -799,6 +791,7 @@ function startEdit(v) {
     const el = document.getElementById('f-' + k); if (!el) return;
     el.value = DATE_KEYS.includes(k) ? dmyToIso(v[k]) : (v[k] ?? '');
   });
+  toggleHD();
   const miss = markMissing();
   $('#formTitle').textContent = (miss.length ? 'Bổ sung thông tin xe ' : 'Chỉnh sửa xe ') + v.bienSo;
   $('#saveBtn').textContent = 'Lưu';
