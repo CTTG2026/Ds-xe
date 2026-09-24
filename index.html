@@ -381,7 +381,7 @@ const state = { vehicles: [], q: '', hang: '', tier: '', editing: null, view: 'h
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]/g, '');
-const carName = v => [v.hangXe, v.nhanHieu].filter(Boolean).join(' ') || 'Chưa rõ loại xe';
+const carName = v => v.hangXe || 'Chưa rõ hãng xe';   // chỉ hiển thị hãng xe
 const isMoto = v => MOTO_HANG.some(h => fold(h) === fold(v.hang));
 
 /* ---------- thứ tự hạng theo bảng; màu theo hạng ---------- */
