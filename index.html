@@ -117,7 +117,7 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 .result{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--soon-bg);border:1px solid var(--yellow-deep);
   border-radius:var(--radius);padding:10px 14px;margin-bottom:14px}
 .list{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
-.vrow{display:grid;min-width:0;grid-template-columns:minmax(0,.9fr) minmax(0,.58fr) minmax(0,1.15fr) minmax(0,.86fr) minmax(0,.86fr) minmax(0,1.35fr) minmax(0,.86fr) minmax(0,.86fr) minmax(0,1.45fr) 26px;gap:5px;align-items:center;
+.vrow{display:grid;min-width:0;grid-template-columns:minmax(0,.8fr) minmax(0,.48fr) minmax(0,.95fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,1.4fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,1.5fr) 26px;gap:3px;align-items:center;
   padding:8px 8px 8px 10px;border-top:1px solid var(--line);cursor:pointer;box-shadow:inset 5px 0 0 var(--hc,transparent)}
 .vrow:first-child{border-top:0}
 .vrow:hover{background:var(--paper)}
@@ -157,19 +157,19 @@ h2{font-size:1.5rem;line-height:1.25;margin:0;font-weight:800}
 
 /* Bảng máy tính co theo màn hình, giữ đủ nội dung và không kéo ngang. */
 @media (min-width:861px){
-  .vrow{font-size:clamp(10px,.9vw,13px);line-height:1.4}
+  .vrow{font-size:clamp(11px,1.2vw,18px);line-height:1.35}
   .vrow > *{min-width:0}
-  .vrow.head{font-size:clamp(10px,.85vw,12px);line-height:1.35}
-  .vrow .cp{margin:0;padding:2px 0;gap:3px;min-height:28px;max-width:100%}
-  .vrow .cp .v{font-size:clamp(9px,.84vw,12px);white-space:normal;overflow:visible;overflow-wrap:anywhere}
-  .vrow .cp .ic{width:11px;height:11px}
-  .vrow .plate{font-family:inherit;font-size:clamp(10px,.95vw,13px);font-weight:700;letter-spacing:0;
+  .vrow.head{font-size:clamp(10px,1vw,15px);line-height:1.3}
+  .vrow .cp{margin:0;padding:2px 0;gap:2px;min-height:30px;max-width:100%}
+  .vrow .cp .v{font-family:inherit;font-size:inherit;font-variant-numeric:tabular-nums;white-space:normal;overflow:visible;overflow-wrap:anywhere}
+  .vrow .cp .ic{width:12px;height:12px}
+  .vrow .plate{font-family:inherit;font-size:inherit;font-weight:700;letter-spacing:0;
     border:0;box-shadow:none;background:transparent;color:inherit;padding:0;border-radius:0}
-  .vrow .hb{font-size:clamp(9px,.8vw,11px);padding:2px 4px;border-radius:4px;line-height:1.3;max-width:100%;overflow-wrap:anywhere}
+  .vrow .hb{font-size:clamp(10px,1vw,15px);padding:2px 3px;border-radius:4px;line-height:1.3;max-width:100%;overflow-wrap:anywhere}
   .vrow .car{overflow-wrap:anywhere}
-  .vrow .car small{font-size:clamp(9px,.8vw,11px);white-space:normal;overflow:visible;overflow-wrap:anywhere}
-  .vrow .miss-n{font-size:9px;padding:0 3px;margin-left:2px}
-  .vrow .st{font-size:clamp(9px,.75vw,11px);overflow-wrap:anywhere}
+  .vrow .car small{font-size:clamp(10px,1vw,15px);white-space:normal;overflow:visible;overflow-wrap:anywhere}
+  .vrow .miss-n{font-size:clamp(9px,.85vw,12px);padding:0 3px;margin-left:2px}
+  .vrow .st{font-size:clamp(10px,.9vw,13px);overflow-wrap:anywhere}
   .vrow .edit-btn{width:26px;height:28px;border-radius:5px}
   .vrow .edit-btn svg{width:13px;height:13px}
 }
